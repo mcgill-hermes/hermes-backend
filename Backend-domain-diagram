@@ -1,0 +1,44 @@
+class UserAccount
+{
+  userName;
+  password;
+  firstName;
+  lastName;
+}
+
+class Article
+{
+  Date publishDate;
+  Time publishTime;
+  int newsID;
+  url;
+  content;
+  title;
+}
+
+class Website
+{
+  websiteName;
+  websiteURL;
+}
+
+
+class Category
+{
+  type;
+}
+
+class Summary
+{
+  nlprResult;
+}
+
+association
+{
+  1 UserAccount -- * Article history;
+  * UserAccount -- * Category preference;
+  * Article -- 1..* Category type;
+  * Article -- 1 Website source;
+  1 Article -- 0..1 Summary;
+}
+
