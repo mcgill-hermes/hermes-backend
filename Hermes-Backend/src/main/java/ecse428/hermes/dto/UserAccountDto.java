@@ -12,13 +12,13 @@ public class UserAccountDto {
     private String lastName;
 
     //UserAccount Associations
-    private List<Article> history;
-    private List<Category> preference;
+    private List<ArticleDto> history;
+    private List<CategoryDto> preference;
 
     public UserAccountDto(){
     }
 
-    public UserAccountDto(String userName,String password,String firstName, String lastName, List<Article> articles, List<Category> preference){
+    public UserAccountDto(String userName,String password,String firstName, String lastName, List<ArticleDto> articles, List<CategoryDto> preference){
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
@@ -43,19 +43,19 @@ public class UserAccountDto {
         return lastName;
     }
 
-    public List<Article> getHistory() {
+    public List<ArticleDto> getHistory() {
         return history;
     }
 
-    public void setHistory(List<Article> history) {
+    public void setHistory(List<ArticleDto> history) {
         this.history = history;
     }
 
-    public List<Category> getPreference() {
+    public List<CategoryDto> getPreference() {
         return preference;
     }
 
-    public void setPreference(List<Category> preference) {
+    public void setPreference(List<CategoryDto> preference) {
         this.preference = preference;
     }
 }

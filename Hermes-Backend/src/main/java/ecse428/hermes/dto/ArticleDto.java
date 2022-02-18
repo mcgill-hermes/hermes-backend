@@ -18,26 +18,26 @@ public class ArticleDto {
     private String title;
 
     //Article Associations
-    private UserAccount userAccount;
-    private List<Category> type;
-    private Website source;
-    private Summary summary;
+    private List<UserAccountDto> userAccountdtos;
+    private List<CategoryDto> typedto;
+    private WebsiteDto sourcedto;
+    private SummaryDto summaryDto;
 
     public ArticleDto(){
     }
 
     public ArticleDto(Date publishDate, Time publishTime, int newsID, String url, String content, String title
-                      ,UserAccount userAccount, List<Category> type,Website source, Summary summary ){
+                      ,List<UserAccountDto> userAccounts, List<CategoryDto> type,WebsiteDto source, SummaryDto summary ){
         this.publishDate = publishDate;
         this.publishTime = publishTime;
         this.newsID = newsID;
         this.url = url;
         this.content = content;
         this.title = title;
-        this.userAccount = userAccount;
-        this.type = type;
-        this.source = source;
-        this.summary = summary;
+        this.userAccountdtos = userAccounts;
+        this.typedto = type;
+        this.sourcedto = source;
+        this.summaryDto = summary;
     }
 
     public Date getPublishDate(){
@@ -64,35 +64,35 @@ public class ArticleDto {
         return this.title;
     }
 
-    public UserAccount getUserAccount(){
-        return this.userAccount;
+    public List<UserAccountDto> getUserAccountdtos() {
+        return userAccountdtos;
     }
 
-    public void setUserAccount(UserAccount u){
-        this.userAccount = u;
+    public void setUserAccountdtos(List<UserAccountDto> userAccountdtos) {
+        this.userAccountdtos = userAccountdtos;
     }
 
-    public List<Category> getType(){
-        return this.type;
+    public List<CategoryDto> getTypedto() {
+        return typedto;
     }
 
-    public void setType (List<Category> t){
-        this.type = t;
+    public void setTypedto(List<CategoryDto> typedto) {
+        this.typedto = typedto;
     }
 
-    public Website getSource(){
-        return this.source;
+    public SummaryDto getSummaryDto() {
+        return summaryDto;
     }
 
-    public void setSource(Website w){
-        this.source = w;
+    public void setSummaryDto(SummaryDto summaryDto) {
+        this.summaryDto = summaryDto;
     }
 
-    public Summary getSummary(){
-        return this.summary;
+    public WebsiteDto getSourcedto() {
+        return sourcedto;
     }
 
-    public void setSummary(Summary s){
-        this.summary = s;
+    public void setSourcedto(WebsiteDto sourcedto) {
+        this.sourcedto = sourcedto;
     }
 }

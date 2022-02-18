@@ -8,12 +8,12 @@ import java.util.List;
 public class WebsiteDto {
     private String websiteName;
     private String websiteURL;
-    private List<Article> articles;
+    private List<ArticleDto> articles;
 
     public WebsiteDto(){
     }
 
-    public WebsiteDto(String websiteName, String websiteURL, List<Article> articles){
+    public WebsiteDto(String websiteName, String websiteURL, List<ArticleDto> articles){
         this.websiteName = websiteName;
         this.websiteURL = websiteURL;
         this.articles = articles;
@@ -27,11 +27,11 @@ public class WebsiteDto {
         return websiteURL;
     }
 
-    public List<Article> getArticles() {
+    public List<ArticleDto> getArticles() {
         return articles;
     }
 
-    public void setArticles(List<Article> articles) {
+    public void setArticles(List<ArticleDto> articles) {
         this.articles = articles;
     }
 }

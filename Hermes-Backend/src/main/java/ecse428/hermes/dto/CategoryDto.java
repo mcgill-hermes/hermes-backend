@@ -10,14 +10,14 @@ public class CategoryDto {
     private String type;
 
     //Category Associations
-    private List<UserAccount> userAccounts;
-    private List<Article> articles;
+    private List<UserAccountDto> userAccounts;
+    private List<ArticleDto> articles;
 
     public CategoryDto(){
 
     }
 
-    public CategoryDto(String type,List<UserAccount> userAccounts, List<Article> articles){
+    public CategoryDto(String type,List<UserAccountDto> userAccounts, List<ArticleDto> articles){
         this.type = type;
         this.userAccounts = userAccounts;
         this.articles = articles;
@@ -27,19 +27,19 @@ public class CategoryDto {
         return this.type;
     }
 
-    public List<UserAccount> getUserAccounts(){
+    public List<UserAccountDto> getUserAccounts(){
         return this.userAccounts;
     }
 
-    public void setUserAccounts(List<UserAccount> us){
+    public void setUserAccounts(List<UserAccountDto> us){
         this.userAccounts = us;
     }
 
-    public List<Article> getArticles(){
+    public List<ArticleDto> getArticles(){
         return this.articles;
     }
 
-    public void setArticles(List<Article> arts){
+    public void setArticles(List<ArticleDto> arts){
         this.articles =arts;
     }
 

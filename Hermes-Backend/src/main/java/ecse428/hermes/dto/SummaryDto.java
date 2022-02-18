@@ -7,12 +7,12 @@ public class SummaryDto {
     private int summaryId;
     private String nlprResult;
     //Summary Associations
-    private Article article;
+    private ArticleDto article;
 
     public SummaryDto(){
     }
 
-    public SummaryDto(int summaryId,String nlprResult,Article article ){
+    public SummaryDto(int summaryId,String nlprResult,ArticleDto article ){
         this.summaryId = summaryId;
         this.nlprResult = nlprResult;
         this.article  = article;
@@ -26,11 +26,11 @@ public class SummaryDto {
         return nlprResult;
     }
 
-    public Article getArticle() {
+    public ArticleDto getArticle() {
         return article;
     }
 
-    public void setArticle(Article article) {
+    public void setArticle(ArticleDto article) {
         this.article = article;
     }
 }
