@@ -28,7 +28,7 @@ public class Article
   private String title;
 
   //Article Associations
-  private UserAccount userAccount;
+  private List<UserAccount> userAccounts;
   private List<Category> type;
   private Website source;
   private Summary summary;
@@ -37,7 +37,7 @@ public class Article
   // CONSTRUCTOR
   //------------------------
 
-  public Article(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, UserAccount aUserAccount, Website aSource, List<Category> allType)
+  public Article(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, Website aSource, Category... allType)
   {
     publishDate = aPublishDate;
     publishTime = aPublishTime;
@@ -45,17 +45,18 @@ public class Article
     url = aUrl;
     content = aContent;
     title = aTitle;
-    setUserAccount(aUserAccount);
-
+    userAccounts = new ArrayList<UserAccount>();
     type = new ArrayList<Category>();
-    setType(allType);
-
-    setSource(aSource);
-
-  }
-
-  public Article() {
-
+    boolean didAddType = setType(allType);
+    if (!didAddType)
+    {
+      throw new RuntimeException("Unable to create Article, must have at least 1 type. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+    boolean didAddSource = setSource(aSource);
+    if (!didAddSource)
+    {
+      throw new RuntimeException("Unable to create article due to source. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
   //------------------------
@@ -140,14 +141,37 @@ public class Article
   {
     return title;
   }
-  /* Code from template association_GetOne */
   @ManyToOne
-  public UserAccount getUserAccount()
+  /* Code from template association_GetMany */
+  public UserAccount getUserAccount(int index)
   {
-    return userAccount;
+    UserAccount aUserAccount = userAccounts.get(index);
+    return aUserAccount;
   }
 
+  public List<UserAccount> getUserAccounts()
+  {
+    List<UserAccount> newUserAccounts = Collections.unmodifiableList(userAccounts);
+    return newUserAccounts;
+  }
 
+  public int numberOfUserAccounts()
+  {
+    int number = userAccounts.size();
+    return number;
+  }
+
+  public boolean hasUserAccounts()
+  {
+    boolean has = userAccounts.size() > 0;
+    return has;
+  }
+
+  public int indexOfUserAccount(UserAccount aUserAccount)
+  {
+    int index = userAccounts.indexOf(aUserAccount);
+    return index;
+  }
   /* Code from template association_GetMany */
   public Category getType(int index)
   {
@@ -198,31 +222,94 @@ public class Article
     boolean has = summary != null;
     return has;
   }
-  /* Code from template association_SetOneToMany */
-  public void setUserAccount(UserAccount aUserAccount)
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfUserAccounts()
   {
-    boolean wasSet = false;
-    if (aUserAccount == null)
+    return 0;
+  }
+  /* Code from template association_AddManyToManyMethod */
+  public boolean addUserAccount(UserAccount aUserAccount)
+  {
+    boolean wasAdded = false;
+    if (userAccounts.contains(aUserAccount)) { return false; }
+    userAccounts.add(aUserAccount);
+    if (aUserAccount.indexOfHistory(this) != -1)
     {
-      return;
+      wasAdded = true;
+    }
+    else
+    {
+      wasAdded = aUserAccount.addHistory(this);
+      if (!wasAdded)
+      {
+        userAccounts.remove(aUserAccount);
+      }
+    }
+    return wasAdded;
+  }
+  /* Code from template association_RemoveMany */
+  public boolean removeUserAccount(UserAccount aUserAccount)
+  {
+    boolean wasRemoved = false;
+    if (!userAccounts.contains(aUserAccount))
+    {
+      return wasRemoved;
     }
 
-    UserAccount existingUserAccount = userAccount;
-    userAccount = aUserAccount;
-    if (existingUserAccount != null && !existingUserAccount.equals(aUserAccount))
+    int oldIndex = userAccounts.indexOf(aUserAccount);
+    userAccounts.remove(oldIndex);
+    if (aUserAccount.indexOfHistory(this) == -1)
     {
-      existingUserAccount.removeHistory(this);
+      wasRemoved = true;
     }
-    userAccount.addHistory(this);
-    wasSet = true;
-    return;
+    else
+    {
+      wasRemoved = aUserAccount.removeHistory(this);
+      if (!wasRemoved)
+      {
+        userAccounts.add(oldIndex,aUserAccount);
+      }
+    }
+    return wasRemoved;
   }
-  /* Code from template association_IsNumberOfValidMethod
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addUserAccountAt(UserAccount aUserAccount, int index)
+  {
+    boolean wasAdded = false;
+    if(addUserAccount(aUserAccount))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfUserAccounts()) { index = numberOfUserAccounts() - 1; }
+      userAccounts.remove(aUserAccount);
+      userAccounts.add(index, aUserAccount);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveUserAccountAt(UserAccount aUserAccount, int index)
+  {
+    boolean wasAdded = false;
+    if(userAccounts.contains(aUserAccount))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfUserAccounts()) { index = numberOfUserAccounts() - 1; }
+      userAccounts.remove(aUserAccount);
+      userAccounts.add(index, aUserAccount);
+      wasAdded = true;
+    }
+    else
+    {
+      wasAdded = addUserAccountAt(aUserAccount, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_IsNumberOfValidMethod */
   public boolean isNumberOfTypeValid()
   {
     boolean isValid = numberOfType() >= minimumNumberOfType();
     return isValid;
-  }*/
+  }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfType()
   {
@@ -292,7 +379,10 @@ public class Article
       verifiedType.add(aType);
     }
 
-
+    if (verifiedType.size() != newType.length || verifiedType.size() < minimumNumberOfType())
+    {
+      return wasSet;
+    }
 
     ArrayList<Category> oldType = new ArrayList<Category>(type);
     type.clear();
@@ -314,11 +404,11 @@ public class Article
       anOldType.removeArticle(this);
     }
     wasSet = true;
-    return ;
+    return wasSet;
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addTypeAt(Category aType, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addType(aType))
     {
@@ -341,20 +431,20 @@ public class Article
       type.remove(aType);
       type.add(index, aType);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addTypeAt(aType, index);
     }
     return wasAdded;
   }
   /* Code from template association_SetOneToMany */
-  public void setSource(Website aSource)
+  public boolean setSource(Website aSource)
   {
     boolean wasSet = false;
     if (aSource == null)
     {
-      return ;
+      return wasSet;
     }
 
     Website existingSource = source;
@@ -365,16 +455,16 @@ public class Article
     }
     source.addArticle(this);
     wasSet = true;
-    return ;
+    return wasSet;
   }
   /* Code from template association_SetOptionalOneToOne */
-  public void setSummary(Summary aNewSummary)
+  public boolean setSummary(Summary aNewSummary)
   {
     boolean wasSet = false;
     if (summary != null && !summary.equals(aNewSummary) && equals(summary.getArticle()))
     {
       //Unable to setSummary, as existing summary would become an orphan
-      return ;
+      return wasSet;
     }
 
     summary = aNewSummary;
@@ -392,16 +482,16 @@ public class Article
       }
     }
     wasSet = true;
-    return ;
+    return wasSet;
   }
 
   public void delete()
   {
-    UserAccount placeholderUserAccount = userAccount;
-    this.userAccount = null;
-    if(placeholderUserAccount != null)
+    ArrayList<UserAccount> copyOfUserAccounts = new ArrayList<UserAccount>(userAccounts);
+    userAccounts.clear();
+    for(UserAccount aUserAccount : copyOfUserAccounts)
     {
-      placeholderUserAccount.removeHistory(this);
+      aUserAccount.removeHistory(this);
     }
     ArrayList<Category> copyOfType = new ArrayList<Category>(type);
     type.clear();
@@ -433,7 +523,6 @@ public class Article
             "title" + ":" + getTitle()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "publishDate" + "=" + (getPublishDate() != null ? !getPublishDate().equals(this)  ? getPublishDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "publishTime" + "=" + (getPublishTime() != null ? !getPublishTime().equals(this)  ? getPublishTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "userAccount = "+(getUserAccount()!=null?Integer.toHexString(System.identityHashCode(getUserAccount())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "source = "+(getSource()!=null?Integer.toHexString(System.identityHashCode(getSource())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "summary = "+(getSummary()!=null?Integer.toHexString(System.identityHashCode(getSummary())):"null");
   }
