@@ -4,12 +4,14 @@ package ecse428.hermes.model;
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 
+import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.*;
 
 // line 10 "model.ump"
 // line 65 "model.ump"
+@Entity
 public class Article
 {
 
@@ -35,7 +37,7 @@ public class Article
   // CONSTRUCTOR
   //------------------------
 
-  public Article(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, UserAccount aUserAccount, Website aSource, Category... allType)
+  public Article(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, UserAccount aUserAccount, Website aSource, List<Category> allType)
   {
     publishDate = aPublishDate;
     publishTime = aPublishTime;
@@ -43,74 +45,69 @@ public class Article
     url = aUrl;
     content = aContent;
     title = aTitle;
-    boolean didAddUserAccount = setUserAccount(aUserAccount);
-    if (!didAddUserAccount)
-    {
-      throw new RuntimeException("Unable to create history due to userAccount. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+    setUserAccount(aUserAccount);
+
     type = new ArrayList<Category>();
-    boolean didAddType = setType(allType);
-    if (!didAddType)
-    {
-      throw new RuntimeException("Unable to create Article, must have at least 1 type. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    boolean didAddSource = setSource(aSource);
-    if (!didAddSource)
-    {
-      throw new RuntimeException("Unable to create article due to source. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+    setType(allType);
+
+    setSource(aSource);
+
+  }
+
+  public Article() {
+
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setPublishDate(Date aPublishDate)
+  public void setPublishDate(Date aPublishDate)
   {
     boolean wasSet = false;
     publishDate = aPublishDate;
     wasSet = true;
-    return wasSet;
+    //return wasSet;
   }
 
-  public boolean setPublishTime(Time aPublishTime)
+  public void setPublishTime(Time aPublishTime)
   {
     boolean wasSet = false;
     publishTime = aPublishTime;
     wasSet = true;
-    return wasSet;
+    //return wasSet;
   }
 
-  public boolean setNewsID(int aNewsID)
+  public void setNewsID(int aNewsID)
   {
     boolean wasSet = false;
     newsID = aNewsID;
     wasSet = true;
-    return wasSet;
+    //return wasSet;
   }
 
-  public boolean setUrl(String aUrl)
+  public void setUrl(String aUrl)
   {
     boolean wasSet = false;
     url = aUrl;
     wasSet = true;
-    return wasSet;
+    //return wasSet;
   }
 
-  public boolean setContent(String aContent)
+  public void setContent(String aContent)
   {
     boolean wasSet = false;
     content = aContent;
     wasSet = true;
-    return wasSet;
+    //return wasSet;
   }
 
-  public boolean setTitle(String aTitle)
+  public void setTitle(String aTitle)
   {
     boolean wasSet = false;
     title = aTitle;
     wasSet = true;
-    return wasSet;
+    //return wasSet;
   }
 
   public Date getPublishDate()
@@ -123,6 +120,7 @@ public class Article
     return publishTime;
   }
 
+  @Id
   public int getNewsID()
   {
     return newsID;
@@ -143,10 +141,13 @@ public class Article
     return title;
   }
   /* Code from template association_GetOne */
+  @ManyToOne
   public UserAccount getUserAccount()
   {
     return userAccount;
   }
+
+
   /* Code from template association_GetMany */
   public Category getType(int index)
   {
@@ -154,6 +155,7 @@ public class Article
     return aType;
   }
 
+  @ManyToMany(mappedBy = "articles")
   public List<Category> getType()
   {
     List<Category> newType = Collections.unmodifiableList(type);
@@ -178,11 +180,14 @@ public class Article
     return index;
   }
   /* Code from template association_GetOne */
+  @ManyToOne
   public Website getSource()
   {
     return source;
   }
   /* Code from template association_GetOne */
+
+  @OneToOne
   public Summary getSummary()
   {
     return summary;
@@ -194,12 +199,12 @@ public class Article
     return has;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setUserAccount(UserAccount aUserAccount)
+  public void setUserAccount(UserAccount aUserAccount)
   {
     boolean wasSet = false;
     if (aUserAccount == null)
     {
-      return wasSet;
+      return;
     }
 
     UserAccount existingUserAccount = userAccount;
@@ -210,14 +215,14 @@ public class Article
     }
     userAccount.addHistory(this);
     wasSet = true;
-    return wasSet;
+    return;
   }
-  /* Code from template association_IsNumberOfValidMethod */
+  /* Code from template association_IsNumberOfValidMethod
   public boolean isNumberOfTypeValid()
   {
     boolean isValid = numberOfType() >= minimumNumberOfType();
     return isValid;
-  }
+  }*/
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfType()
   {
@@ -274,7 +279,7 @@ public class Article
     return wasRemoved;
   }
   /* Code from template association_SetMStarToMany */
-  public boolean setType(Category... newType)
+  public void setType(List<Category> newType)
   {
     boolean wasSet = false;
     ArrayList<Category> verifiedType = new ArrayList<Category>();
@@ -287,10 +292,7 @@ public class Article
       verifiedType.add(aType);
     }
 
-    if (verifiedType.size() != newType.length || verifiedType.size() < minimumNumberOfType())
-    {
-      return wasSet;
-    }
+
 
     ArrayList<Category> oldType = new ArrayList<Category>(type);
     type.clear();
@@ -312,7 +314,7 @@ public class Article
       anOldType.removeArticle(this);
     }
     wasSet = true;
-    return wasSet;
+    return ;
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addTypeAt(Category aType, int index)
@@ -347,12 +349,12 @@ public class Article
     return wasAdded;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setSource(Website aSource)
+  public void setSource(Website aSource)
   {
     boolean wasSet = false;
     if (aSource == null)
     {
-      return wasSet;
+      return ;
     }
 
     Website existingSource = source;
@@ -363,16 +365,16 @@ public class Article
     }
     source.addArticle(this);
     wasSet = true;
-    return wasSet;
+    return ;
   }
   /* Code from template association_SetOptionalOneToOne */
-  public boolean setSummary(Summary aNewSummary)
+  public void setSummary(Summary aNewSummary)
   {
     boolean wasSet = false;
     if (summary != null && !summary.equals(aNewSummary) && equals(summary.getArticle()))
     {
       //Unable to setSummary, as existing summary would become an orphan
-      return wasSet;
+      return ;
     }
 
     summary = aNewSummary;
@@ -390,7 +392,7 @@ public class Article
       }
     }
     wasSet = true;
-    return wasSet;
+    return ;
   }
 
   public void delete()

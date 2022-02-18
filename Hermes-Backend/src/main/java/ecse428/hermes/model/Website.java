@@ -3,12 +3,16 @@ package ecse428.hermes.model;
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.*;
 import java.sql.Date;
 import java.sql.Time;
 
 // line 20 "model.ump"
 // line 70 "model.ump"
+@Entity
 public class Website
 {
 
@@ -34,24 +38,28 @@ public class Website
     articles = new ArrayList<Article>();
   }
 
+  public Website() {
+
+  }
+
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setWebsiteName(String aWebsiteName)
+  public void setWebsiteName(String aWebsiteName)
   {
     boolean wasSet = false;
     websiteName = aWebsiteName;
     wasSet = true;
-    return wasSet;
+    //return wasSet;
   }
 
-  public boolean setWebsiteURL(String aWebsiteURL)
+  public void setWebsiteURL(String aWebsiteURL)
   {
     boolean wasSet = false;
     websiteURL = aWebsiteURL;
     wasSet = true;
-    return wasSet;
+    //return wasSet;
   }
 
   public String getWebsiteName()
@@ -59,6 +67,10 @@ public class Website
     return websiteName;
   }
 
+
+
+
+  @Id
   public String getWebsiteURL()
   {
     return websiteURL;
@@ -70,10 +82,15 @@ public class Website
     return aArticle;
   }
 
+  @OneToMany(mappedBy = "source")
   public List<Article> getArticles()
   {
-    List<Article> newArticles = Collections.unmodifiableList(articles);
-    return newArticles;
+    return this.articles;
+  }
+
+  public void setArticles(List<Article> newArticles)
+  {
+    this.articles = newArticles;
   }
 
   public int numberOfArticles()
@@ -99,7 +116,7 @@ public class Website
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Article addArticle(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, UserAccount aUserAccount, Category... allType)
+  public Article addArticle(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, UserAccount aUserAccount, List<Category> allType)
   {
     return new Article(aPublishDate, aPublishTime, aNewsID, aUrl, aContent, aTitle, aUserAccount, this, allType);
   }

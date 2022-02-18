@@ -3,12 +3,17 @@ package ecse428.hermes.model;
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.util.*;
 import java.sql.Date;
 import java.sql.Time;
 
 // line 2 "model.ump"
 // line 50 "model.ump"
+@Entity
 public class UserAccount
 {
 
@@ -40,42 +45,47 @@ public class UserAccount
     preference = new ArrayList<Category>();
   }
 
+  public UserAccount() {
+
+  }
+
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setUserName(String aUserName)
+  public void setUserName(String aUserName)
   {
     boolean wasSet = false;
     userName = aUserName;
     wasSet = true;
-    return wasSet;
+    //return wasSet;
   }
 
-  public boolean setPassword(String aPassword)
+  public void setPassword(String aPassword)
   {
     boolean wasSet = false;
     password = aPassword;
     wasSet = true;
-    return wasSet;
+    //return wasSet;
   }
 
-  public boolean setFirstName(String aFirstName)
+  public void setFirstName(String aFirstName)
   {
     boolean wasSet = false;
     firstName = aFirstName;
     wasSet = true;
-    return wasSet;
+    //return wasSet;
   }
 
-  public boolean setLastName(String aLastName)
+  public void setLastName(String aLastName)
   {
     boolean wasSet = false;
     lastName = aLastName;
     wasSet = true;
-    return wasSet;
+    //return wasSet;
   }
 
+  @Id
   public String getUserName()
   {
     return userName;
@@ -102,10 +112,15 @@ public class UserAccount
     return aHistory;
   }
 
+  @OneToMany(mappedBy = "userAccount")
   public List<Article> getHistory()
   {
-    List<Article> newHistory = Collections.unmodifiableList(history);
-    return newHistory;
+    return this.history;
+  }
+
+  public void setHistory(List<Article> newHistory)
+  {
+    this.history = newHistory;
   }
 
   public int numberOfHistory()
@@ -132,10 +147,15 @@ public class UserAccount
     return aPreference;
   }
 
+  @ManyToMany (mappedBy = "userAccounts")
   public List<Category> getPreference()
   {
-    List<Category> newPreference = Collections.unmodifiableList(preference);
-    return newPreference;
+    return this.preference;
+  }
+
+  public void setPreference(List<Category> newPreference)
+  {
+    this.preference = newPreference;
   }
 
   public int numberOfPreference()
@@ -161,7 +181,7 @@ public class UserAccount
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Article addHistory(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, Website aSource, Category... allType)
+  public Article addHistory(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, Website aSource, List<Category> allType)
   {
     return new Article(aPublishDate, aPublishTime, aNewsID, aUrl, aContent, aTitle, this, aSource, allType);
   }

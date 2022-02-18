@@ -3,10 +3,14 @@ package ecse428.hermes.model;
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.util.*;
 
 // line 27 "model.ump"
 // line 60 "model.ump"
+@Entity
 public class Category
 {
 
@@ -32,18 +36,23 @@ public class Category
     articles = new ArrayList<Article>();
   }
 
+  public Category() {
+
+  }
+
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setType(String aType)
+  public void setType(String aType)
   {
     boolean wasSet = false;
     type = aType;
     wasSet = true;
-    return wasSet;
+    //return wasSet;
   }
 
+  @Id
   public String getType()
   {
     return type;
@@ -55,10 +64,16 @@ public class Category
     return aUserAccount;
   }
 
+  @ManyToMany
   public List<UserAccount> getUserAccounts()
   {
     List<UserAccount> newUserAccounts = Collections.unmodifiableList(userAccounts);
     return newUserAccounts;
+  }
+
+  public void setUserAccounts(List<UserAccount> UserAccounts)
+  {
+    this.userAccounts = UserAccounts;
   }
 
   public int numberOfUserAccounts()
@@ -85,10 +100,17 @@ public class Category
     return aArticle;
   }
 
+
+  @ManyToMany
   public List<Article> getArticles()
   {
     List<Article> newArticles = Collections.unmodifiableList(articles);
     return newArticles;
+  }
+
+  public void setArticles(List<Article> Articles)
+  {
+    articles = Articles;
   }
 
   public int numberOfArticles()
