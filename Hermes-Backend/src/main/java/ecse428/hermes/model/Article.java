@@ -59,6 +59,10 @@ public class Article
     }
   }
 
+  public Article(){
+
+  }
+
   //------------------------
   // INTERFACE
   //------------------------
