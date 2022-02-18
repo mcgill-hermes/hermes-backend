@@ -112,7 +112,7 @@ public class UserAccount
     return aHistory;
   }
 
-  @OneToMany(mappedBy = "userAccount")
+  @ManyToMany(mappedBy = "userAccount")
   public List<Article> getHistory()
   {
     return this.history;
@@ -180,44 +180,54 @@ public class UserAccount
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
-  public Article addHistory(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, Website aSource, List<Category> allType)
-  {
-    return new Article(aPublishDate, aPublishTime, aNewsID, aUrl, aContent, aTitle, this, aSource, allType);
-  }
-
+  /* Code from template association_AddManyToManyMethod */
   public boolean addHistory(Article aHistory)
   {
     boolean wasAdded = false;
     if (history.contains(aHistory)) { return false; }
-    UserAccount existingUserAccount = aHistory.getUserAccount();
-    boolean isNewUserAccount = existingUserAccount != null && !this.equals(existingUserAccount);
-    if (isNewUserAccount)
+    history.add(aHistory);
+    if (aHistory.indexOfUserAccount(this) != -1)
     {
-      aHistory.setUserAccount(this);
+      wasAdded = true;
     }
     else
     {
-      history.add(aHistory);
+      wasAdded = aHistory.addUserAccount(this);
+      if (!wasAdded)
+      {
+        history.remove(aHistory);
+      }
     }
-    wasAdded = true;
     return wasAdded;
   }
-
+  /* Code from template association_RemoveMany */
   public boolean removeHistory(Article aHistory)
   {
     boolean wasRemoved = false;
-    //Unable to remove aHistory, as it must always have a userAccount
-    if (!this.equals(aHistory.getUserAccount()))
+    if (!history.contains(aHistory))
     {
-      history.remove(aHistory);
+      return wasRemoved;
+    }
+
+    int oldIndex = history.indexOf(aHistory);
+    history.remove(oldIndex);
+    if (aHistory.indexOfUserAccount(this) == -1)
+    {
       wasRemoved = true;
+    }
+    else
+    {
+      wasRemoved = aHistory.removeUserAccount(this);
+      if (!wasRemoved)
+      {
+        history.add(oldIndex,aHistory);
+      }
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addHistoryAt(Article aHistory, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addHistory(aHistory))
     {
@@ -240,8 +250,8 @@ public class UserAccount
       history.remove(aHistory);
       history.add(index, aHistory);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addHistoryAt(aHistory, index);
     }
@@ -299,7 +309,7 @@ public class UserAccount
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addPreferenceAt(Category aPreference, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addPreference(aPreference))
     {
@@ -322,8 +332,8 @@ public class UserAccount
       preference.remove(aPreference);
       preference.add(index, aPreference);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addPreferenceAt(aPreference, index);
     }
@@ -332,10 +342,11 @@ public class UserAccount
 
   public void delete()
   {
-    for(int i=history.size(); i > 0; i--)
+    ArrayList<Article> copyOfHistory = new ArrayList<Article>(history);
+    history.clear();
+    for(Article aHistory : copyOfHistory)
     {
-      Article aHistory = history.get(i - 1);
-      aHistory.delete();
+      aHistory.removeUserAccount(this);
     }
     ArrayList<Category> copyOfPreference = new ArrayList<Category>(preference);
     preference.clear();

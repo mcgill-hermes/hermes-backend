@@ -35,7 +35,7 @@ class Summary
 
 association
 {
-  1 UserAccount -- * Article history;
+  * UserAccount -- * Article history;
   * UserAccount -- * Category preference;
   * Article -- 1..* Category type;
   * Article -- 1 Website source;
