@@ -141,8 +141,9 @@ public class Article
   {
     return title;
   }
-  @ManyToOne
+
   /* Code from template association_GetMany */
+  @ManyToMany()
   public UserAccount getUserAccount(int index)
   {
     UserAccount aUserAccount = userAccounts.get(index);
