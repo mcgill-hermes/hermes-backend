@@ -37,7 +37,7 @@ public class Article
   // CONSTRUCTOR
   //------------------------
 
-  public Article(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, Website aSource, Category... allType)
+  public Article(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, Website aSource, List<Category>allType)
   {
     publishDate = aPublishDate;
     publishTime = aPublishTime;
@@ -367,7 +367,7 @@ public class Article
     return wasRemoved;
   }
   /* Code from template association_SetMStarToMany */
-  public void setType(List<Category> newType)
+  public boolean setType(List<Category> newType)
   {
     boolean wasSet = false;
     ArrayList<Category> verifiedType = new ArrayList<Category>();
@@ -380,7 +380,7 @@ public class Article
       verifiedType.add(aType);
     }
 
-    if (verifiedType.size() != newType.length || verifiedType.size() < minimumNumberOfType())
+    if (verifiedType.size() != newType.size() || verifiedType.size() < minimumNumberOfType())
     {
       return wasSet;
     }
