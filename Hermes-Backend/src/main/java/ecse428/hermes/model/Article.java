@@ -37,6 +37,10 @@ public class Article
   // CONSTRUCTOR
   //------------------------
 
+  public Article(){
+    
+  }
+
   public Article(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, Website aSource, List<Category>allType)
   {
     publishDate = aPublishDate;
@@ -143,17 +147,18 @@ public class Article
   }
 
   /* Code from template association_GetMany */
-  @ManyToMany()
+  
   public UserAccount getUserAccount(int index)
   {
     UserAccount aUserAccount = userAccounts.get(index);
     return aUserAccount;
   }
 
+  @ManyToMany()
   public List<UserAccount> getUserAccounts()
   {
-    List<UserAccount> newUserAccounts = Collections.unmodifiableList(userAccounts);
-    return newUserAccounts;
+    // just return userAccounts
+    return this.userAccounts;
   }
 
   public int numberOfUserAccounts()
