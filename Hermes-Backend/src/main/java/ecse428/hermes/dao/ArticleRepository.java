@@ -8,6 +8,7 @@ import ecse428.hermes.model.Summary;
 import ecse428.hermes.model.Category;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface ArticleRepository extends CrudRepository<Article, String>{
@@ -17,13 +18,13 @@ public interface ArticleRepository extends CrudRepository<Article, String>{
 
     Article findArticleByUrl(String url);
 
-    List<Article> findArticleByUserAccount(UserAccount userAccount);
+    List<Article> findAllByUserAccounts(UserAccount userAccount);
 
     List<Article> findArticleBySource(Website website);
 
     Article findArticleBySummary(Summary summary);
 
-    List<Article> findArticleByTypeIn(List<Category> type);
+    List<Article> findAllByType(Category type);
 
 
 }

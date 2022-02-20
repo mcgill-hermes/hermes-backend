@@ -13,10 +13,10 @@ import java.util.List;
 public interface CategoryRepository extends CrudRepository<Category, String> {
     Category findCategoryByType(String type);
 
-    List<Category> findCategoryByArticlesIn(List<Article> articles);
+    List<Category> findAllByArticles(Article article);
 
 
-    List<Category> findCategoryByUserAccountsIn(List<UserAccount> userAccounts);
+    List<Category> findAllByUserAccounts(UserAccount userAccount);
 
 
 }
