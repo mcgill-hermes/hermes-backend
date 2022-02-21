@@ -2,11 +2,7 @@ package ecse428.hermes.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import ecse428.hermes.dto.UserAccountDto;
 import ecse428.hermes.model.UserAccount;
@@ -31,4 +27,28 @@ public class UserController {
     		throw new RuntimeException(e.getMessage());
     	}
     }
+
+
+	/*********************************************************
+	 * Jiatong Niu's workspace
+	 *********************************************************/
+
+	/**
+	 * @author Jiatong Niu
+	 * @para userName
+	 * @return an UserAccountDto
+	 * @throws Exception
+	 */
+
+	@GetMapping (value = {"getAccountByUsername","getAccountByUsername/"})
+	public UserAccountDto getAccountByUsername (@RequestParam("username") String username) throws Exception{
+		try{
+			UserAccount userAccount = userAccountService.getAccountByUsername(username);
+			return ControllerHelper.convertToDto(userAccount);
+		}catch(IllegalArgumentException e){
+			throw new RuntimeException(e.getMessage());
+		}
+
+	}
+
 }

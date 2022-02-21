@@ -74,6 +74,16 @@ public class UserAccountService {
 	/*********************************************************
 	 * Jiatong Niu's workspace
 	 *********************************************************/
-	
+	@Transactional
+	public UserAccount getAccountByUsername(String name){
+		if (name.isEmpty()){
+			throw new IllegalArgumentException("Error: the username is null");
+		}
+		UserAccount userAccount = userAccountRepository.findUserAccountByUserName(name);
+		if(userAccount.equals(null)){
+			throw new IllegalArgumentException("Error: the useraccount cannot be found");
+		}
+		return  userAccount;
+	}
 	
 }
