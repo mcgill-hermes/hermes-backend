@@ -37,11 +37,7 @@ public class Article
   // CONSTRUCTOR
   //------------------------
 
-  public Article(){
-    
-  }
-
-  public Article(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, Website aSource, List<Category>allType)
+  public Article(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, Website aSource, Category... allType)
   {
     publishDate = aPublishDate;
     publishTime = aPublishTime;
@@ -51,16 +47,16 @@ public class Article
     title = aTitle;
     userAccounts = new ArrayList<UserAccount>();
     type = new ArrayList<Category>();
-    setType(allType);
-//    if (!didAddType)
-//    {
-//      throw new RuntimeException("Unable to create Article, must have at least 1 type. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-//    }
-    setSource(aSource);
-//    if (!didAddSource)
-//    {
-//      throw new RuntimeException("Unable to create article due to source. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-//    }
+    boolean didAddType = setType(allType);
+    if (!didAddType)
+    {
+      throw new RuntimeException("Unable to create Article, must have at least 1 type. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+    boolean didAddSource = setSource(aSource);
+    if (!didAddSource)
+    {
+      throw new RuntimeException("Unable to create article due to source. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
   //------------------------
@@ -147,24 +143,17 @@ public class Article
   }
 
   /* Code from template association_GetMany */
-  
+  @ManyToMany()
   public UserAccount getUserAccount(int index)
   {
     UserAccount aUserAccount = userAccounts.get(index);
     return aUserAccount;
   }
 
-  @ManyToMany()
   public List<UserAccount> getUserAccounts()
   {
-    // just return userAccounts
-    return this.userAccounts;
-  }
-
-  public void setUserAccounts(List<UserAccount> userAccounts)
-  {
-    // just return userAccounts
-    this.userAccounts = userAccounts;
+    List<UserAccount> newUserAccounts = Collections.unmodifiableList(userAccounts);
+    return newUserAccounts;
   }
 
   public int numberOfUserAccounts()
@@ -197,8 +186,6 @@ public class Article
     List<Category> newType = Collections.unmodifiableList(type);
     return newType;
   }
-
-
 
   public int numberOfType()
   {
@@ -318,12 +305,12 @@ public class Article
     }
     return wasAdded;
   }
-  /* Code from template association_IsNumberOfValidMethod
+  /* Code from template association_IsNumberOfValidMethod */
   public boolean isNumberOfTypeValid()
   {
     boolean isValid = numberOfType() >= minimumNumberOfType();
     return isValid;
-  }*/
+  }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfType()
   {
@@ -393,9 +380,9 @@ public class Article
       verifiedType.add(aType);
     }
 
-    if (verifiedType.size() != newType.size() || verifiedType.size() < minimumNumberOfType())
+    if (verifiedType.size() != newType.length || verifiedType.size() < minimumNumberOfType())
     {
-      return;
+      return wasSet;
     }
 
     ArrayList<Category> oldType = new ArrayList<Category>(type);
@@ -418,7 +405,7 @@ public class Article
       anOldType.removeArticle(this);
     }
     wasSet = true;
-    return;
+    return wasSet;
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addTypeAt(Category aType, int index)
@@ -453,12 +440,12 @@ public class Article
     return wasAdded;
   }
   /* Code from template association_SetOneToMany */
-  public void setSource(Website aSource)
+  public boolean setSource(Website aSource)
   {
     boolean wasSet = false;
     if (aSource == null)
     {
-      return ;
+      return wasSet;
     }
 
     Website existingSource = source;
@@ -469,16 +456,16 @@ public class Article
     }
     source.addArticle(this);
     wasSet = true;
-    return ;
+    return wasSet;
   }
   /* Code from template association_SetOptionalOneToOne */
-  public void setSummary(Summary aNewSummary)
+  public boolean setSummary(Summary aNewSummary)
   {
     boolean wasSet = false;
     if (summary != null && !summary.equals(aNewSummary) && equals(summary.getArticle()))
     {
       //Unable to setSummary, as existing summary would become an orphan
-      return ;
+      return wasSet;
     }
 
     summary = aNewSummary;
@@ -496,7 +483,7 @@ public class Article
       }
     }
     wasSet = true;
-    return ;
+    return wasSet;
   }
 
   public void delete()
