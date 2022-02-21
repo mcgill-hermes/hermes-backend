@@ -1,5 +1,8 @@
 package ecse428.hermes.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ServiceHelper {
 
 	/**
@@ -60,5 +63,13 @@ public class ServiceHelper {
 		else {
 			return false;
 		}
+	}
+
+	public static <T> List<T> toList(Iterable<T> iterable) {
+		List<T> resultList = new ArrayList<T>();
+		for (T t : iterable) {
+			resultList.add(t);
+		}
+		return resultList;
 	}
 }
