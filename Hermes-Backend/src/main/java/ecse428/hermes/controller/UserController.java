@@ -20,14 +20,41 @@ public class UserController {
     @Autowired
     private UserAccountService userAccountService;
     
-    
-    @PostMapping(value = { "/technician/create", "/technician/create/" })
-    public UserAccountDto createTechnicianProfile(@RequestParam String userName, @RequestParam String firstName,
+    /**
+     * Sign up a user account.
+     * @param userName
+     * @param firstName
+     * @param lastName
+     * @param password
+     * @author Zichen
+     * @return a UserAccountDto with specified information.
+     * @throws Exception
+     */
+    @PostMapping(value = { "/auth/signup", "/auth/signup/" })
+    public UserAccountDto createUserAccount(@RequestParam String userName, @RequestParam String firstName,
     		@RequestParam String lastName, @RequestParam String password) throws Exception {
     	try {
     		UserAccount userAccount = userAccountService.createUserAccount(userName, password, firstName, lastName);
     		return ControllerHelper.convertToDto(userAccount);
     	} catch (IllegalArgumentException e) {
+    		throw new RuntimeException(e.getMessage());
+    	}
+    }
+    
+    /**
+     * login a user.
+     * @param userName
+     * @param password
+     * @author Zichen
+     * @return UserAccountDto if password match with userName
+     * @throws Exception
+     */
+    @PostMapping(value = { "/auth/login", "/auth/login/" })
+    public UserAccountDto createTechnicianProfile(@RequestParam String userName, @RequestParam String password) throws Exception {
+    	try {
+    		UserAccount userAccount = userAccountService.verifyUserAccountPassword(userName, password);
+    		return ControllerHelper.convertToDto(userAccount);
+    	} catch (RuntimeException e) {
     		throw new RuntimeException(e.getMessage());
     	}
     }

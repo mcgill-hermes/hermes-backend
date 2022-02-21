@@ -70,6 +70,27 @@ public class UserAccountService {
 		return userAccount;
 	}
 	
+	/**
+	 * Service to verify the input username with password.
+	 * @param aUserName
+	 * @param aPassword
+	 * @author Zichen
+	 * @return user if found; otherwise raise exception
+	 */
+	@Transactional
+	public UserAccount verifyUserAccountPassword(String aUserName, String aPassword) {
+		UserAccount user = userAccountRepository.findUserAccountByUserName(aUserName);
+		if (user == null) {
+			throw new RuntimeException("ERROR: no user found");
+		}
+		String storedPassword = user.getPassword();
+		
+		if (storedPassword.equals(aPassword)) {
+			return user;
+		} else {
+			throw new RuntimeException("ERROR: password error");
+		}
+	}
 	
 	/*********************************************************
 	 * Jiatong Niu's workspace
