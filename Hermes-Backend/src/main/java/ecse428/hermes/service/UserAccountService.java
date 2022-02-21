@@ -69,4 +69,11 @@ public class UserAccountService {
 
 		return userAccount;
 	}
+	
+	
+	/*********************************************************
+	 * Jiatong Niu's workspace
+	 *********************************************************/
+	
+	
 }
