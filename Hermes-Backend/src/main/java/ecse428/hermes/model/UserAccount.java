@@ -112,7 +112,7 @@ public class UserAccount
     return aHistory;
   }
 
-  @ManyToMany(mappedBy = "userAccount")
+  @ManyToMany()
   public List<Article> getHistory()
   {
     return this.history;
