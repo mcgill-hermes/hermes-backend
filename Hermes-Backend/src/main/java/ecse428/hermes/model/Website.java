@@ -118,9 +118,8 @@ public class Website
   /* Code from template association_AddManyToOne */
   public Article addArticle(Date aPublishDate, Time aPublishTime, int aNewsID, String aUrl, String aContent, String aTitle, UserAccount aUserAccount, List<Category> allType)
   {
-    return new Article(aPublishDate, aPublishTime, aNewsID, aUrl, aContent, aTitle, aUserAccount, this, allType);
+    return new Article(aPublishDate, aPublishTime, aNewsID, aUrl, aContent, aTitle, this, allType);
   }
-
   public boolean addArticle(Article aArticle)
   {
     boolean wasAdded = false;
