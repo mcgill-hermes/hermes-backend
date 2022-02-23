@@ -17,6 +17,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.cucumber:cucumber-java:6.8.1'
+    testImplementation 'io.cucumber:cucumber-junit:6.8.1'
+    testImplementation 'io.rest-assured:rest-assured:4.3.3'
 	// mockito:
 //	testImplementation 'org.mockito:mockito-core:2.+'
 //	testImplementation 'org.mockito:mockito-junit-jupiter:2.18.3'
@@ -24,6 +27,23 @@ dependencies {
 //	testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 //	testImplementation 'org.junit.platform:junit-platform-launcher:1.4.1'
 //	compile 'org.springframework.boot:spring-boot-starter-mail'
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', '--glue', 'com.example.gradle.apidemo', 'src/test/resources']
+        }
+    }
 }
 
 tasks.named('test') {
