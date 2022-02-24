@@ -166,4 +166,29 @@ public class UserController {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
+
+	/**
+	 * Input a Json file
+	 * Todo: check login status
+	 * @param userAccount
+	 * @return
+	 */
+
+	/* Example of Json
+
+	{
+    "userName": "eclipse",
+ 	"password": "ditto",
+    "firstName": "chen",
+    "lastName": "kua"
+	}
+
+	 */
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(@RequestBody UserAccount userAccount){
+
+		return userAccount.getUserName() + userAccount.getPassword();
+
+	}
+
 }

@@ -2,8 +2,10 @@ package ecse428.hermes.service;
 
 import ecse428.hermes.dao.ArticleRepository;
 import ecse428.hermes.dao.CategoryRepository;
+import ecse428.hermes.dto.UserAccountDto;
 import ecse428.hermes.model.Article;
 import ecse428.hermes.model.Category;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -252,5 +254,11 @@ public class UserAccountService {
 		List<Article> filteredArticles = articlesOfCategory.stream().filter(a-> !history.contains(a)).collect(Collectors.toList());
 		return filteredArticles;
 	}
-	
+
+	// TODO
+	@Transactional
+	public boolean login(UserAccountDto userAccountDto){
+		return true;
+
+	}
 }
