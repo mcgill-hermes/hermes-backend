@@ -1,5 +1,6 @@
 package stepDefinition;
 
+import ecse428.hermes.model.Category;
 import io.cucumber.java.en.Given;
 
 import io.cucumber.java.en.When;
@@ -19,6 +20,7 @@ public class CucumberStepDefinition {
 	
 	private UserAccountService userAccountService;
 	private UserAccount userAccount;
+	private Category category;
 	
 	/**
 	 * feature: User Login (normal case)
@@ -59,7 +61,24 @@ public class CucumberStepDefinition {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new io.cucumber.java.PendingException();
 	}
-	
 
+	@And("the system exist the category {string}")
+	public void theSystemExistTheCategory(String arg0) {
+	}
 
+	@Given("the preference of the user with username {string} has no category {string}")
+	public void thePreferenceOfTheUserWithUsernameHasNoCategory(String arg0, String arg1) {
+	}
+
+	@When("the user with username {string} select the category {string} as user preference")
+	public void theUserWithUsernameSelectTheCategoryAsUserPreference(String arg0, String arg1) {
+	}
+
+	@Then("the preference of the user with username {string} has category {string}")
+	public void thePreferenceOfTheUserWithUsernameHasCategory(String arg0, String arg1) {
+	}
+
+	@When("the user with username {string} update the category {string} as user preference")
+	public void theUserWithUsernameUpdateTheCategoryAsUserPreference(String arg0, String arg1) {
+	}
 }
