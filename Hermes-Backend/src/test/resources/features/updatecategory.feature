@@ -11,12 +11,14 @@ Feature: User update a news category as user preference
     Given the preference of the user with username "user01" has no category "category02"
     When the user with username "user01" update the category "category02" as user preference
     Then the preference of the user with username "user01" has category "category02"
+    But the preference of the user with username "user01" has no category "category01"
     Examples:
       |  |
 
-  Scenario Outline: Add a news category as user preference (alternative case)
+  Scenario Outline: Update an existing news category as user preference (alternative case)
     Given the preference of the user with username "user01" has category "category02"
     When the user with username "user01" update the category "category02" as user preference
     Then the preference of the user with username "user01" has category "category02"
+    But the preference of the user with username "user01" has no category "category01"
     Examples:
       |  |
