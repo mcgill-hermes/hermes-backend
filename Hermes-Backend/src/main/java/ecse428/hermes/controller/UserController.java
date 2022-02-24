@@ -34,16 +34,17 @@ public class UserController {
 	 * @author Zichen
 	 */
 	@PostMapping(value = {"/auth/signup", "/auth/signup/"})
-	public UserAccountDto createUserAccount(@RequestParam String userName, @RequestParam String firstName,
-											@RequestParam String lastName, @RequestParam String password) throws Exception {
+	public UserAccountDto createUserAccount(@RequestBody UserAccount user) throws Exception {
 		try {
-			UserAccount userAccount = userAccountService.createUserAccount(userName, password, firstName, lastName);
+			UserAccount userAccount = userAccountService.createUserAccount(user.getUserName(), user.getPassword(), 
+					user.getFirstName(), user.getLastName());
 			return ControllerHelper.convertToDto(userAccount);
 		} catch (IllegalArgumentException e) {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
 
+	
 	/**
 	 * login a user.
 	 *
@@ -54,12 +55,12 @@ public class UserController {
 	 * @author Zichen
 	 */
 	@PostMapping(value = {"/auth/login", "/auth/login/"})
-	public UserAccountDto accountLogin(@RequestParam String userName, @RequestParam String password) throws Exception {
+	public UserAccountDto accountLogin(@RequestBody UserAccount user) throws Exception {
 		try {
-			UserAccount userAccount = userAccountService.verifyUserAccountPassword(userName, password);
+			UserAccount userAccount = userAccountService.verifyUserAccountPassword(user.getUserName(), user.getPassword());
 			return ControllerHelper.convertToDto(userAccount);
 		} catch (RuntimeException e) {
-			throw new RuntimeException(e.getMessage());
+				throw new RuntimeException(e.getMessage());
 		}
 	}
 
@@ -76,7 +77,7 @@ public class UserController {
 	 */
 
 	@GetMapping(value = {"/getAccountByUsername", "/getAccountByUsername/"})
-	public UserAccountDto getAccountByUsername(@RequestParam("username") String userName) throws Exception {
+	public UserAccountDto getAccountByUsername(@RequestParam String userName) throws Exception {
 		try {
 			UserAccount userAccount = userAccountService.getAccountByUsername(userName);
 			return ControllerHelper.convertToDto(userAccount);
@@ -97,10 +98,11 @@ public class UserController {
 	 * @author Jiatong Niu
 	 */
 	@PostMapping(value = {"/myaccount/editinformation", "/myaccount/editinformation/"})
-	public UserAccountDto updateGeneralInformation(@RequestParam String username, @RequestParam String originalpassword
-			, @RequestParam String newpassword, @RequestParam String newfirstname, @RequestParam String newlastname) throws Exception {
+	public UserAccountDto updateGeneralInformation(@RequestParam String originalpassword,
+		@RequestBody UserAccount newUser) throws Exception {
 		try {
-			UserAccount userAccount = userAccountService.updateAccountInfo(username, originalpassword, newpassword, newfirstname, newlastname);
+			UserAccount userAccount = userAccountService.updateAccountInfo(newUser.getUserName(), originalpassword, 
+					newUser.getPassword(), newUser.getFirstName(), newUser.getLastName());
 			return ControllerHelper.convertToDto(userAccount);
 		} catch (IllegalArgumentException e) {
 			throw new RuntimeException(e.getMessage());
@@ -125,9 +127,8 @@ public class UserController {
 	 * @author Jiatong Niu
 	 */
 	@GetMapping(value = {"/news/foruser/", "news/foruser/"})
-	public List<ArticleDto> getNewsForUser(@RequestParam String username) throws Exception {
+	public List<ArticleDto> getNewsForUser(@RequestBody String username) throws Exception {
 		try {
-
 			UserAccount userAccount = userAccountService.getAccountByUsername(username);
 			List<Article> articlesForUser = userAccountService.getArticlesByUser(userAccount);
 			return articlesForUser.stream().map(a -> ControllerHelper.convertToDto(a)).collect(Collectors.toList());
@@ -138,6 +139,7 @@ public class UserController {
 	}
 
 	/**
+	 * Return news in that category.
 	 * @param type
 	 * @return
 	 * @throws Exception
@@ -154,6 +156,14 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * Return news in that category and filter out the ones the user already seen.
+	 * @param type
+	 * @param username
+	 * @return
+	 * @throws Exception
+	 * @author Jiatong Niu
+	 */
 	@GetMapping(value = {"news/Category/forUser", "news/Category/forUser/"})
 	public List<ArticleDto> getNewsOfTypeForUser(@RequestParam String type, @RequestParam String username) throws Exception{
 		try{
@@ -166,6 +176,13 @@ public class UserController {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
+	
+	
+	
+	/*********************************************************
+	 * Templates
+	 *********************************************************/
+	
 
 	/**
 	 * Input a Json file

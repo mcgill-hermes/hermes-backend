@@ -39,8 +39,9 @@ public class UserAccountService {
 	 */
 	@Transactional
 	public UserAccount createUserAccount(String aUserName, String aPassword, String aFirstName, String aLastName) { 
-
-		// TODO: I decide not to introduce hash code value inside the database.
+		if (aUserName==null || aPassword==null || aFirstName==null || aLastName==null) {
+			throw new IllegalArgumentException("Error: input is not complete for creating new user account.");
+		}
 		if (userAccountRepository.findUserAccountByUserName(String.valueOf(aUserName)) != null) {
 			throw new IllegalArgumentException("ERROR: UserAccount with the provided username exists.");
 		}
@@ -53,6 +54,8 @@ public class UserAccountService {
 			} else {
 				throw new IllegalArgumentException("ERROR: Invalid userName.");
 			}
+		} else {
+			throw new IllegalArgumentException("ERROR: User name must not be empty");
 		}
 		
 		if (!aPassword.isEmpty()) {
@@ -61,6 +64,8 @@ public class UserAccountService {
 			} else {
 				throw new IllegalArgumentException("ERROR: Invalid password.");
 			}
+		} else {
+			throw new IllegalArgumentException("ERROR: Password must not be empty");
 		}
 		
 		if (!aFirstName.isEmpty()) {
@@ -69,6 +74,8 @@ public class UserAccountService {
 			} else {
 				throw new IllegalArgumentException("ERROR: Invalid firstName.");
 			}
+		} else {
+			throw new IllegalArgumentException("ERROR: First name must not be empty");
 		}
 		
 		if (!aLastName.isEmpty()) {
@@ -93,12 +100,14 @@ public class UserAccountService {
 	 */
 	@Transactional
 	public UserAccount verifyUserAccountPassword(String aUserName, String aPassword) {
+		if (aUserName==null || aPassword==null) {
+			throw new RuntimeException("No username or password is entered");
+		}
 		UserAccount user = userAccountRepository.findUserAccountByUserName(aUserName);
 		if (user == null) {
 			throw new RuntimeException("ERROR: no user found");
 		}
 		String storedPassword = user.getPassword();
-		
 		if (storedPassword.equals(aPassword)) {
 			return user;
 		} else {
@@ -175,6 +184,7 @@ public class UserAccountService {
 
 	/**
 	 * this method return all the articles in the system
+	 * @author Jiatong Niu
 	 * @return
 	 */
 	@Transactional
@@ -188,6 +198,7 @@ public class UserAccountService {
 	 * then get the user preference and find all articles that is of the type within preference (without duplication)
 	 * filter out the articles that is already in history
 	 * @param userAccount
+	 * @author Jiatong Niu
 	 * @return
 	 */
 	@Transactional
