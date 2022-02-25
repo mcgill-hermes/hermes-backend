@@ -98,4 +98,8 @@ public class CucumberStepDefinition {
 	@When("the user with username {string} update the category {string} as user preference")
 	public void theUserWithUsernameUpdateTheCategoryAsUserPreference(String arg0, String arg1) {
 	}
+
+	@When("the user with username {string} delete the category {string} as user preference")
+	public void theUserWithUsernameDeleteTheCategoryAsUserPreference(String arg0, String arg1) {
+	}
 }
