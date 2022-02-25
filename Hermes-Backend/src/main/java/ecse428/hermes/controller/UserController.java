@@ -207,5 +207,12 @@ public class UserController {
 		return userAccount.getUserName() + userAccount.getPassword();
 
 	}
+	
+//	public String logout (String username, String password) {
+//		String status = "login";
+//		userAccountService.verifyUserAccountPassword(username, password);
+//		status = "logout";
+//		return status;
+//	}
 
 }

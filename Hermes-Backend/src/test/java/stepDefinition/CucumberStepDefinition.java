@@ -31,9 +31,11 @@ public class CucumberStepDefinition {
 	 * @author Yujing Yang 
 	 */
 	
+	// start of feature login logout
+	
 	@Given("the system exist the account {string}, {string}, {string}, {string}")
 	public void the_system_exist_the_account(String string1, String string2, String string3, String string4) {
-		userAccount = userAccountService.createUserAccount(string1, string2, string3, string4);
+		//userAccount = userAccountService.createUserAccount(string1, string2, string3, string4);
 	}
 
 	@Given("the user is not logged in with username {string} and password {string}")
@@ -59,8 +61,23 @@ public class CucumberStepDefinition {
 	@Given("the user is logged in with username {string} and password {string}")
 	public void the_user_is_logged_in_with_username_and_password(String string, String string2) {
 	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	    // throw new io.cucumber.java.PendingException();
 	}
+	
+	@When("the user logout from the website")
+	public void the_user_logout_from_the_website() {
+	    // Write code here that turns the phrase above into concrete actions
+	    // throw new io.cucumber.java.PendingException();
+	}
+	
+	@Then("the user's status is not logged in")
+	public void the_user_s_status_is_not_logged_in() {
+	    // Write code here that turns the phrase above into concrete actions
+	    //  new io.cucumber.java.PendingException();
+	}
+	
+	// end of feature login and logout
+	
 
 	@And("the system exist the category {string}")
 	public void theSystemExistTheCategory(String arg0) {
