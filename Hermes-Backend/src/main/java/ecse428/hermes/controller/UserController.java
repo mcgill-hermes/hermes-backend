@@ -97,11 +97,25 @@ public class UserController {
 	 * @throws Exception
 	 * @author Jiatong Niu
 	 */
+/*	{
+	    "userName": "chang3",
+	 	"password": "123456",
+	    "firstName": "Zichen",
+	    "lastName": "Chang",
+	    "preference":[{
+	                      "type":"sports"
+	                  }]
+	}*/
 	@PostMapping(value = {"/myaccount/editinformation", "/myaccount/editinformation/"})
 	public UserAccountDto updateGeneralInformation(@RequestBody UserAccountDto newUser) throws Exception {
 		try {
 			UserAccount userAccount = userAccountService.updateAccountInfo(newUser.getUserName(),
 					newUser.getPassword(), newUser.getFirstName(), newUser.getLastName(), newUser.getPreference());
+			System.out.println(userAccount.getPreference());
+			
+			UserAccountDto dto = ControllerHelper.convertToDto(userAccount);
+			System.out.println("Dto's preference:"+ dto.getPreference());
+			// converTo dto is broken
 			return ControllerHelper.convertToDto(userAccount);
 		} catch (IllegalArgumentException e) {
 			throw new RuntimeException(e.getMessage());

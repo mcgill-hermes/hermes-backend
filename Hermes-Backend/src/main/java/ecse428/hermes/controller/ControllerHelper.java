@@ -32,8 +32,11 @@ public class ControllerHelper {
 		List<CategoryDto> preferences = new ArrayList<CategoryDto>();
 		if (userAccount.getHistory() != null) {
 			services = userAccount.getHistory().stream().map(r -> ControllerHelper.convertToDto(r)).collect(Collectors.toList());
-		}else if(userAccount.getPreference() != null){ 
-			preferences = userAccount.getPreference().stream().map(r -> ControllerHelper.convertToDto(r)).collect(Collectors.toList());	
+		}
+		// TODO: the NULL problem is with this else!  -- in fact it is a forever loop in convertToDto
+		// Solution: use a specific convertPreferenceToDto
+		if(userAccount.getPreference() != null){ 
+			preferences = userAccount.getPreference().stream().map(r -> ControllerHelper.userPreferenceConvertToDto(r)).collect(Collectors.toList());	
 		}	
 		UserAccountDto userAccountDto = new UserAccountDto(userAccount.getUserName(), userAccount.getPassword(),
 				userAccount.getFirstName(), userAccount.getLastName(), services, preferences);	
@@ -91,6 +94,28 @@ public class ControllerHelper {
 		if (category.getArticles() != null) {
 			articles = category.getArticles().stream().map(r -> ControllerHelper.convertToDto(r)).collect(Collectors.toList());
 		}
+		
+		CategoryDto categoryDto = new CategoryDto(category.getType(), userAccounts, articles);
+		return categoryDto;
+	}
+	
+	/**
+	 * Convert Category to dto.
+	 * @param category
+	 * @author Zichen
+	 * @return
+	 */
+	public static CategoryDto userPreferenceConvertToDto(Category category) {
+		if (category == null) {
+			throw new IllegalArgumentException("Error: User Preference does not exist.");
+		}
+		List<UserAccountDto> userAccounts = new ArrayList<UserAccountDto>();
+		List<ArticleDto> articles = new ArrayList<ArticleDto>();
+
+		if (category.getArticles() != null) {
+			articles = category.getArticles().stream().map(r -> ControllerHelper.convertToDto(r)).collect(Collectors.toList());
+		}
+		
 		CategoryDto categoryDto = new CategoryDto(category.getType(), userAccounts, articles);
 		return categoryDto;
 	}

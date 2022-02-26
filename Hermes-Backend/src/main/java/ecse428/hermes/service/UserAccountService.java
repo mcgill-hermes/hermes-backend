@@ -150,6 +150,15 @@ public class UserAccountService {
 	 * @author Jiatong Niu
 	 * @return useraccount if information updated successfully, otherwise raise exception
 	 */
+/*	{
+	    "userName": "chang3",
+	 	"password": "123456",
+	    "firstName": "Zichen",
+	    "lastName": "2",
+	    "preference":[{
+	                    "type":"military"
+	                  }]
+	}*/
 	@Transactional
 	public UserAccount updateAccountInfo (String name, String newPassword, String newFirstName, String newLastName,
 			List<CategoryDto> preference){
@@ -162,9 +171,9 @@ public class UserAccountService {
 			throw new IllegalArgumentException("Error: the useraccount cannot be found");
 		}
 
-		String storedPassword = userAccount.getPassword();
+//		String storedPassword = userAccount.getPassword();  Currently unused
 
-		if (newPassword == null && newFirstName == null && newLastName== null){
+		if (newPassword == null && newFirstName == null && newLastName== null && preference == null){
 			throw new IllegalArgumentException("Error: Please update at least one information");
 		} else {
 			if(newPassword != null){
@@ -180,15 +189,27 @@ public class UserAccountService {
 
 		if (preference != null) {
 			List<Category> newPreference = new ArrayList<Category>();	// what important is the type of the categories
+			List<Category> oldPreference = new ArrayList<Category>(userAccount.getPreference());			
+			
+			// Remove this user from all old preferences
+			for (Category c: oldPreference) {
+				List<UserAccount> users = new ArrayList<UserAccount>(c.getUserAccounts());	// old list of interested users
+				users.remove(userAccount);
+				c.setUserAccounts(users);
+				categoryRepository.save(c);	
+			}
+			// Add new preference list and update interested users in the categories
 			for (CategoryDto c : preference){
-				Category category = categoryRepository.findCategoryByType(c.getType());
+				Category category = categoryRepository.findCategoryByType(c.getType());	
+				// TODO: HOPE FRONTEND WILL PROVIDE PROPER INPUT without invoking this condition line
 				if (category == null) {
-					throw new IllegalArgumentException("ERROR: input category" +category.toString()+" existed");	
+					throw new IllegalArgumentException("ERROR: input category " +c.getType()+" does not exist");	
 				}
 				// update the category user List
 				List<UserAccount> ua = new ArrayList<UserAccount>(category.getUserAccounts());
 				ua.add(userAccount);
 				category.setUserAccounts(ua);
+				categoryRepository.save(category);
 				// then add this category to the preference list of user
 				newPreference.add(category);
 			}
@@ -196,6 +217,7 @@ public class UserAccountService {
 		}
 
 		userAccountRepository.save(userAccount);
+		
 		return userAccount;
 		//			throw new IllegalArgumentException("ERROR: password error, please enter the correct password");	
 	}

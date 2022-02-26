@@ -67,8 +67,7 @@ public class Category
   @ManyToMany
   public List<UserAccount> getUserAccounts()
   {
-    List<UserAccount> newUserAccounts = Collections.unmodifiableList(userAccounts);
-    return newUserAccounts;
+    return this.userAccounts;
   }
 
   public void setUserAccounts(List<UserAccount> UserAccounts)
@@ -104,8 +103,8 @@ public class Category
   @ManyToMany
   public List<Article> getArticles()
   {
-    List<Article> newArticles = Collections.unmodifiableList(articles);
-    return newArticles;
+//    List<Article> newArticles = Collections.unmodifiableList(articles);
+    return this.articles;
   }
 
   public void setArticles(List<Article> Articles)
