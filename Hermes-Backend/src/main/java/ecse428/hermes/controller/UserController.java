@@ -98,16 +98,14 @@ public class UserController {
 	 * @author Jiatong Niu
 	 */
 	@PostMapping(value = {"/myaccount/editinformation", "/myaccount/editinformation/"})
-	public UserAccountDto updateGeneralInformation(@RequestParam String originalpassword,
-		@RequestBody UserAccount newUser) throws Exception {
+	public UserAccountDto updateGeneralInformation(@RequestBody UserAccountDto newUser) throws Exception {
 		try {
-			UserAccount userAccount = userAccountService.updateAccountInfo(newUser.getUserName(), originalpassword, 
-					newUser.getPassword(), newUser.getFirstName(), newUser.getLastName());
+			UserAccount userAccount = userAccountService.updateAccountInfo(newUser.getUserName(),
+					newUser.getPassword(), newUser.getFirstName(), newUser.getLastName(), newUser.getPreference());
 			return ControllerHelper.convertToDto(userAccount);
 		} catch (IllegalArgumentException e) {
 			throw new RuntimeException(e.getMessage());
 		}
-
 	}
 
 	/**

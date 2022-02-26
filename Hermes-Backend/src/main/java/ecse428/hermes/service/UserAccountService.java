@@ -2,6 +2,8 @@ package ecse428.hermes.service;
 
 import ecse428.hermes.dao.ArticleRepository;
 import ecse428.hermes.dao.CategoryRepository;
+import ecse428.hermes.dto.ArticleDto;
+import ecse428.hermes.dto.CategoryDto;
 import ecse428.hermes.dto.UserAccountDto;
 import ecse428.hermes.model.Article;
 import ecse428.hermes.model.Category;
@@ -19,15 +21,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserAccountService {
-	
+
 	@Autowired
 	UserAccountRepository userAccountRepository;
 	@Autowired
 	ArticleRepository articleRepository;
 	@Autowired
 	CategoryRepository categoryRepository;
-	
-	
+
+
 	/**
 	 * Creates a user account with the provide arguments.
 	 * @param aUserName
@@ -57,7 +59,7 @@ public class UserAccountService {
 		} else {
 			throw new IllegalArgumentException("ERROR: User name must not be empty");
 		}
-		
+
 		if (!aPassword.isEmpty()) {
 			if (ServiceHelper.isValidPassWord(aPassword)) {
 				userAccount.setPassword(aPassword);
@@ -67,7 +69,7 @@ public class UserAccountService {
 		} else {
 			throw new IllegalArgumentException("ERROR: Password must not be empty");
 		}
-		
+
 		if (!aFirstName.isEmpty()) {
 			if (ServiceHelper.isValidFirstName(aFirstName)) {
 				userAccount.setFirstName(aFirstName);
@@ -77,7 +79,7 @@ public class UserAccountService {
 		} else {
 			throw new IllegalArgumentException("ERROR: First name must not be empty");
 		}
-		
+
 		if (!aLastName.isEmpty()) {
 			if (ServiceHelper.isValidLastName(aLastName)) {
 				userAccount.setLastName(aLastName);
@@ -90,7 +92,7 @@ public class UserAccountService {
 
 		return userAccount;
 	}
-	
+
 	/**
 	 * Service to verify the input username with password.
 	 * @param aUserName
@@ -114,7 +116,7 @@ public class UserAccountService {
 			throw new RuntimeException("ERROR: password error");
 		}
 	}
-	
+
 	/*********************************************************
 	 * Jiatong Niu's workspace
 	 *********************************************************/
@@ -149,37 +151,53 @@ public class UserAccountService {
 	 * @return useraccount if information updated successfully, otherwise raise exception
 	 */
 	@Transactional
-	public UserAccount updateAccountInfo (String name, String oldPassword, String newPassword, String newFirstName, String newLastName){
+	public UserAccount updateAccountInfo (String name, String newPassword, String newFirstName, String newLastName,
+			List<CategoryDto> preference){
 		if (name == null){
 			throw new IllegalArgumentException("Error: the username is null");
 		}
+
 		UserAccount userAccount = userAccountRepository.findUserAccountByUserName(name);
-		if(userAccount.equals(null)){
+		if (userAccount.equals(null)){
 			throw new IllegalArgumentException("Error: the useraccount cannot be found");
 		}
+
 		String storedPassword = userAccount.getPassword();
 
-		if ((storedPassword.equals(oldPassword)) ){
-
-			if(newPassword == null && newFirstName == null && newLastName== null){
-				throw new IllegalArgumentException("Error: Please update at least one information");
-			}else{
-				if(newPassword != null){
-					userAccount.setPassword(newPassword);
-				}
-				if(newFirstName != null){
-					userAccount.setFirstName(newFirstName);
-				}
-				if(newLastName != null){
-					userAccount.setLastName(newLastName);
-				}
+		if (newPassword == null && newFirstName == null && newLastName== null){
+			throw new IllegalArgumentException("Error: Please update at least one information");
+		} else {
+			if(newPassword != null){
+				userAccount.setPassword(newPassword);
 			}
-
-			userAccountRepository.save(userAccount);
-			return userAccount;
-		}else{
-			throw new IllegalArgumentException("ERROR: password error, please enter the correct password");
+			if(newFirstName != null){
+				userAccount.setFirstName(newFirstName);
+			}
+			if(newLastName != null){
+				userAccount.setLastName(newLastName);
+			}
 		}
+
+		if (preference != null) {
+			List<Category> newPreference = new ArrayList<Category>();	// what important is the type of the categories
+			for (CategoryDto c : preference){
+				Category category = categoryRepository.findCategoryByType(c.getType());
+				if (category == null) {
+					throw new IllegalArgumentException("ERROR: input category" +category.toString()+" existed");	
+				}
+				// update the category user List
+				List<UserAccount> ua = new ArrayList<UserAccount>(category.getUserAccounts());
+				ua.add(userAccount);
+				category.setUserAccounts(ua);
+				// then add this category to the preference list of user
+				newPreference.add(category);
+			}
+			userAccount.setPreference(newPreference);
+		}
+
+		userAccountRepository.save(userAccount);
+		return userAccount;
+		//			throw new IllegalArgumentException("ERROR: password error, please enter the correct password");	
 	}
 
 	/**
