@@ -174,8 +174,8 @@ public class CucumberStepDefinition {
 	 * @author Jiatong Niu
 	 */
 
-	@Given("The system exists category {string},{string}")
-	public void SystemHasCategory(String arg0,String arg1){
+	@Given("The system exists category {string}")
+	public void theSystemExistsCategory(String arg0) {
 
 	}
 
@@ -219,4 +219,6 @@ public class CucumberStepDefinition {
 	@Then("the article {string} for each summary {string} is correctly returned but some articles do not have summary")
 	public void theArticleForEachSummaryIsCorrectlyReturnedButSomeArticlesDoNotHaveSummary(String arg0, String arg1) {
 	}
+
+
 }
