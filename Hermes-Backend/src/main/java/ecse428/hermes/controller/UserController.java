@@ -138,8 +138,8 @@ public class UserController {
 	 * @throws Exception
 	 * @author Jiatong Niu
 	 */
-	@GetMapping(value = {"/news/foruser/", "news/foruser/"})
-	public List<ArticleDto> getNewsForUser(@RequestBody String username) throws Exception {
+	@GetMapping(value = {"/news/foruser", "news/foruser/"})
+	public List<ArticleDto> getNewsForUser(@RequestParam String username) throws Exception {
 		try {
 			UserAccount userAccount = userAccountService.getAccountByUsername(username);
 			List<Article> articlesForUser = userAccountService.getArticlesByUser(userAccount);
@@ -157,7 +157,7 @@ public class UserController {
 	 * @throws Exception
 	 * @author Jiatong Niu
 	 */
-	@GetMapping(value = {"/news/Category/", "news/Category/"})
+	@GetMapping(value = {"/news/Category", "news/Category/"})
 	public List<ArticleDto> getNewsOfType(@RequestParam String type) throws Exception {
 		try {
 			Category category = userAccountService.getCategoryByType(type);

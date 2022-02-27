@@ -6,15 +6,19 @@ Feature: User select a news category as user preference
     And the system exist the category "category01"
 
   Scenario Outline: Add a news category as user preference (normal case)
-    Given the preference of the user with username "user01" has no category "category01"
-    When the user with username "user01" select the category "category01" as user preference
-    Then the preference of the user with username "user01" has category "category01"
+    Given the preference of the user with username "<username>" has no category "<category>"
+    When the user with username "<username>" select the category "<category>" as user preference
+    Then the preference of the user with username "<username>" now has category "<category>"
     Examples:
-      |  |
+      | username  | category
+      | user01    | category01
+      | user02    | category02
 
   Scenario Outline: Add an existing news category as user preference (alternative case)
-    Given the preference of the user with username "user01" has category "category01"
-    When the user with username "user01" select the category "category01" as user preference
-    Then the preference of the user with username "user01" has category "category01"
+    Given the preference of the user with username "<username>" has category "<category>"
+    When the user with username "<username>" select the category "<category>" as user preference
+    Then the preference of the user with username "<username>" now has category "<category>"
     Examples:
-      |  |
+      | username  | category
+      | user01    | category01
+      | user02    | category02

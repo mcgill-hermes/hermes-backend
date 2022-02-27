@@ -230,6 +230,12 @@ public class UserAccountService {
 	@Transactional
 	public List<Article> getAllArticles(){
 		List <Article> articles = ServiceHelper.toList(articleRepository.findAll());
+		if(articles.size()>50){
+			int length = articles.size();
+			for(int i = 0; i <length-50;i++){
+				articles.remove(0);
+			}
+		}
 		return articles;
 	}
 
@@ -243,21 +249,12 @@ public class UserAccountService {
 	 */
 	@Transactional
 	public List<Article> getArticlesByUser(UserAccount userAccount){
-		List<Article> myhistory = articleRepository.findAllByUserAccounts(userAccount);
 		List<Category> userPreference = categoryRepository.findAllByUserAccounts(userAccount);
-		List<Article> articlesOfPreference = new ArrayList<>();
-		for(int i =0; i<userPreference.size();i++){
-			Category type = userPreference.get(i);
-			List<Article> articlesOfType = articleRepository.findAllByType(type);
-
-			// filter out articles that is already included when go through previous types
-			List<Article> newArticles = articlesOfType.stream().filter(a-> !articlesOfPreference.contains(a)).collect(Collectors.toList());
-			articlesOfPreference.addAll(newArticles);
+		List<Article> articles = new ArrayList<>();
+		for (int i =0; i<userPreference.size();i++){
+			articles.addAll(getArticlesOfCategoryForUser(userPreference.get(i),userAccount));
 		}
-
-		//filter out history
-		List<Article> articlesOfUser = articlesOfPreference.stream().filter(a-> !myhistory.contains(a)).collect(Collectors.toList());
-		return articlesOfUser;
+		return articles;
 	}
 
 	/**
@@ -290,7 +287,12 @@ public class UserAccountService {
 		if(articlesOfCategory.equals(null)){
 			throw new IllegalArgumentException("Error: No articles found");
 		}
-
+		if(articlesOfCategory.size()>50){
+			int length = articlesOfCategory.size();
+			for(int i = 0; i <length-50;i++){
+				articlesOfCategory.remove(0);
+			}
+		}
 		return articlesOfCategory;
 	}
 
@@ -303,6 +305,12 @@ public class UserAccountService {
 
 		List<Article> history = articleRepository.findAllByUserAccounts(userAccount);
 		List<Article> filteredArticles = articlesOfCategory.stream().filter(a-> !history.contains(a)).collect(Collectors.toList());
+		if(filteredArticles.size()>50){
+			int length = filteredArticles.size();
+			for(int i = 0; i <length-50;i++){
+				filteredArticles.remove(0);
+			}
+		}
 		return filteredArticles;
 	}
 

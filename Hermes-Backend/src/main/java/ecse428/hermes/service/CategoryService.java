@@ -47,4 +47,13 @@ public class CategoryService {
 	public List<Category> getCategories(){
 		return (List<Category>) categoryRepository.findAll();
 	}
+
+	/**
+	 * Show all categories in db.
+	 * @return a list of all categories
+	 * @author Zichen
+	 */
+	public List<String> getCategoriesTypes(){
+		return (List<String>) categoryRepository.findAllTypes();
+	}
 }
