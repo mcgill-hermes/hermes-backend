@@ -194,8 +194,7 @@ public class Article
   @ManyToMany(mappedBy = "articles")
   public List<Category> getType()
   {
-    List<Category> newType = Collections.unmodifiableList(type);
-    return newType;
+    return type;
   }
 
 
@@ -382,43 +381,7 @@ public class Article
   /* Code from template association_SetMStarToMany */
   public void setType(List<Category> newType)
   {
-    boolean wasSet = false;
-    ArrayList<Category> verifiedType = new ArrayList<Category>();
-    for (Category aType : newType)
-    {
-      if (verifiedType.contains(aType))
-      {
-        continue;
-      }
-      verifiedType.add(aType);
-    }
-
-    if (verifiedType.size() != newType.size() || verifiedType.size() < minimumNumberOfType())
-    {
-      return;
-    }
-
-    ArrayList<Category> oldType = new ArrayList<Category>(type);
-    type.clear();
-    for (Category aNewType : verifiedType)
-    {
-      type.add(aNewType);
-      if (oldType.contains(aNewType))
-      {
-        oldType.remove(aNewType);
-      }
-      else
-      {
-        aNewType.addArticle(this);
-      }
-    }
-
-    for (Category anOldType : oldType)
-    {
-      anOldType.removeArticle(this);
-    }
-    wasSet = true;
-    return;
+    this.type = newType;
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addTypeAt(Category aType, int index)

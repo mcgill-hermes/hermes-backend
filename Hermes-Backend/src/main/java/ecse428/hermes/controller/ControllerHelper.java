@@ -28,10 +28,10 @@ public class ControllerHelper {
 		if (userAccount == null) {
 			throw new IllegalArgumentException("UserAccount does not exist.");
 		}
-		List<ArticleDto> services = new ArrayList<ArticleDto>();
+		List<ArticleDto> articles = new ArrayList<ArticleDto>();
 		List<CategoryDto> preferences = new ArrayList<CategoryDto>();
 		if (userAccount.getHistory() != null) {
-			services = userAccount.getHistory().stream().map(r -> ControllerHelper.convertToDto(r)).collect(Collectors.toList());
+			articles = userAccount.getHistory().stream().map(r -> ControllerHelper.convertToDto(r)).collect(Collectors.toList());
 		}
 		// TODO: the NULL problem is with this else!  -- in fact it is a forever loop in convertToDto
 		// Solution: use a specific convertPreferenceToDto
@@ -39,10 +39,28 @@ public class ControllerHelper {
 			preferences = userAccount.getPreference().stream().map(r -> ControllerHelper.userPreferenceConvertToDto(r)).collect(Collectors.toList());	
 		}	
 		UserAccountDto userAccountDto = new UserAccountDto(userAccount.getUserName(), userAccount.getPassword(),
-				userAccount.getFirstName(), userAccount.getLastName(), services, preferences);	
+				userAccount.getFirstName(), userAccount.getLastName(), articles, preferences);
 		return userAccountDto;
 	}
-	
+	/**
+	 * Convert an userAccount to Dto withour loop.
+	 * @param userAccount
+	 * @author Zichen
+	 * @return
+	 */
+	public static UserAccountDto convertToDtoWithoutArticle(UserAccount userAccount){
+		if (userAccount == null) {
+			throw new IllegalArgumentException("UserAccount does not exist.");
+		}
+		List<ArticleDto> articles = new ArrayList<ArticleDto>();
+		List<CategoryDto> preferences = new ArrayList<CategoryDto>();
+		// TODO: the NULL problem is with this else!  -- in fact it is a forever loop in convertToDto
+		// Solution: use a specific convertPreferenceToDto
+		UserAccountDto userAccountDto = new UserAccountDto(userAccount.getUserName(), userAccount.getPassword(),
+				userAccount.getFirstName(), userAccount.getLastName(), articles, preferences);
+		return userAccountDto;
+	}
+
 	/**
 	 * Convert Article to dto.
 	 * @param article
@@ -57,18 +75,19 @@ public class ControllerHelper {
 		List<UserAccountDto> userAccounts = new ArrayList<UserAccountDto>();
 		List<CategoryDto> types = new ArrayList<CategoryDto>();
 		WebsiteDto website = new WebsiteDto();
-		SummaryDto summary = new SummaryDto();	
+		SummaryDto summary = new SummaryDto();
+
 		if (article.getUserAccounts() != null) {
-			userAccounts = article.getUserAccounts().stream().map(r -> ControllerHelper.convertToDto(r)).collect(Collectors.toList());
+			userAccounts = article.getUserAccounts().stream().map(r -> ControllerHelper.convertToDtoWithoutArticle(r)).collect(Collectors.toList());
 		}
 		if (article.getType() != null){ // user account has no related history
-			types = article.getType().stream().map(r -> ControllerHelper.convertToDto(r)).collect(Collectors.toList());
+			types = article.getType().stream().map(r -> ControllerHelper.convertToDtoWithoutArticle(r)).collect(Collectors.toList());
 		}		
 		if (article.getSource() != null) {
-			website = ControllerHelper.convertToDto(article.getSource());
+			website = ControllerHelper.convertToDtoWithoutArticle(article.getSource());
 		}
 		if (article.getSummary() != null) {
-			summary = ControllerHelper.convertToDto(article.getSummary());
+			summary = ControllerHelper.convertToDtoWithoutArticle(article.getSummary());
 		}
 		ArticleDto articleDto = new ArticleDto(article.getPublishDate(), article.getPublishTime(),
 				article.getNewsID(), article.getUrl(), article.getContent(), article.getTitle(), 
@@ -119,6 +138,22 @@ public class ControllerHelper {
 		CategoryDto categoryDto = new CategoryDto(category.getType(), userAccounts, articles);
 		return categoryDto;
 	}
+
+	/**
+	 * Convert Category to dto.
+	 * @param category
+	 * @author Zichen
+	 * @return
+	 */
+	public static CategoryDto convertToDtoWithoutArticle(Category category) {
+		if (category == null) {
+			throw new IllegalArgumentException("Category does not exist.");
+		}
+		List<UserAccountDto> userAccounts = new ArrayList<UserAccountDto>();
+		List<ArticleDto> articles = new ArrayList<ArticleDto>();
+		CategoryDto categoryDto = new CategoryDto(category.getType(), userAccounts, articles);
+		return categoryDto;
+	}
 	
 	/**
 	 * Convert Summary to dto.
@@ -134,6 +169,22 @@ public class ControllerHelper {
 		if (summary.getArticle() != null) {
 			article = ControllerHelper.convertToDto(summary.getArticle());
 		}	
+		SummaryDto summaryDto = new SummaryDto(summary.getSummaryId(), summary.getNlprResult(), article);
+		return summaryDto;
+	}
+
+	/**
+	 * Convert Summary to dto.
+	 * @param summary
+	 * @author Zichen
+	 * @return
+	 */
+	public static SummaryDto convertToDtoWithoutArticle(Summary summary) {
+		if (summary == null) {
+			throw new IllegalArgumentException("Summary does not exist.");
+		}
+		ArticleDto article = new ArticleDto();
+
 		SummaryDto summaryDto = new SummaryDto(summary.getSummaryId(), summary.getNlprResult(), article);
 		return summaryDto;
 	}
@@ -153,6 +204,22 @@ public class ControllerHelper {
 			articles = website.getArticles().stream().map(r -> ControllerHelper.convertToDto(r)).collect(Collectors.toList());
 		}	
 		WebsiteDto websiteDto = new WebsiteDto(website.getWebsiteName(), website.getWebsiteURL(), articles);	
+		return websiteDto;
+	}
+
+	/**
+	 * Convert Website to dto.
+	 * @param website
+	 * @author Zichen
+	 * @return
+	 */
+	public static WebsiteDto convertToDtoWithoutArticle(Website website) {
+		if (website == null) {
+			throw new IllegalArgumentException("Source Website does not exist.");
+		}
+		List<ArticleDto> articles = new ArrayList<ArticleDto>();
+
+		WebsiteDto websiteDto = new WebsiteDto(website.getWebsiteName(), website.getWebsiteURL(), articles);
 		return websiteDto;
 	}
 

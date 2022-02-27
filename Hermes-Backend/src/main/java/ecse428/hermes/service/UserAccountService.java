@@ -230,6 +230,12 @@ public class UserAccountService {
 	@Transactional
 	public List<Article> getAllArticles(){
 		List <Article> articles = ServiceHelper.toList(articleRepository.findAll());
+		if(articles.size()>50){
+			int length = articles.size();
+			for(int i = 0; i <length-50;i++){
+				articles.remove(0);
+			}
+		}
 		return articles;
 	}
 
@@ -257,6 +263,12 @@ public class UserAccountService {
 
 		//filter out history
 		List<Article> articlesOfUser = articlesOfPreference.stream().filter(a-> !myhistory.contains(a)).collect(Collectors.toList());
+		if(articlesOfUser.size()>50){
+			int length = articlesOfUser.size();
+			for(int i = 0; i <length-50;i++){
+				articlesOfUser.remove(0);
+			}
+		}
 		return articlesOfUser;
 	}
 
@@ -290,7 +302,12 @@ public class UserAccountService {
 		if(articlesOfCategory.equals(null)){
 			throw new IllegalArgumentException("Error: No articles found");
 		}
-
+		if(articlesOfCategory.size()>50){
+			int length = articlesOfCategory.size();
+			for(int i = 0; i <length-50;i++){
+				articlesOfCategory.remove(0);
+			}
+		}
 		return articlesOfCategory;
 	}
 
@@ -303,6 +320,12 @@ public class UserAccountService {
 
 		List<Article> history = articleRepository.findAllByUserAccounts(userAccount);
 		List<Article> filteredArticles = articlesOfCategory.stream().filter(a-> !history.contains(a)).collect(Collectors.toList());
+		if(filteredArticles.size()>50){
+			int length = filteredArticles.size();
+			for(int i = 0; i <length-50;i++){
+				filteredArticles.remove(0);
+			}
+		}
 		return filteredArticles;
 	}
 
