@@ -221,4 +221,13 @@ public class CucumberStepDefinition {
 	}
 
 
+	@Given("the system does not exist the account {string}, {string}, {string}, {string}")
+	public void theSystemDoesNotExistTheAccount(String arg0, String arg1, String arg2, String arg3) {
+
+	}
+
+    @Then("the backend should return error message {string}")
+    public void theBackendShouldReturnErrorMessage(String arg0) {
+
+    }
 }
