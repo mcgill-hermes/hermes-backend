@@ -166,4 +166,41 @@ public class CucumberStepDefinition {
 	@Then("the number of articles {string} in category {string} is correctly returned")
 	public void theNumberOfArticlesInCategoryIsCorrectlyReturned(String arg0, String arg1) {
 	}
+
+
+
+	/**
+	 * feature: View article based on user preference
+	 * @author Jiatong Niu
+	 */
+
+	@Given("The system exists category {string},{string}")
+	public void SystemHasCategory(String arg0,String arg1){
+
+	}
+
+	@And("The following articles {string},{string} exist in system")
+	public void SystemHasArticle(String arg0, String arg1){
+
+	}
+
+	@And("The following user {string},{string},{string},{string},{string} exist in system")
+	public void SystemHasUser (String arg0, String arg1, String arg2, String arg3, String arg4){
+
+	}
+
+	@When("View all article for user {string}")
+	public void  viewArticleForUser (String arg0){
+
+	}
+
+	@Then("the number of article summaries {string} for user {string} is correctly returned")
+	public void theNumofArtmatches (String arg0, String arg1){
+
+	}
+
+	@And("The following user {string},{string},{string},{string} exist in system")
+	public void SystemHasUser (String arg0, String arg1, String arg2, String arg3{
+
+	}
 }

@@ -139,7 +139,7 @@ public class UserController {
 	 * @author Jiatong Niu
 	 */
 	@GetMapping(value = {"/news/foruser", "news/foruser/"})
-	public List<ArticleDto> getNewsForUser(@RequestParam String username) throws Exception {
+	public List<ArticleDto> getNewsForUser(@RequestBody String username) throws Exception {
 		try {
 			UserAccount userAccount = userAccountService.getAccountByUsername(username);
 			List<Article> articlesForUser = userAccountService.getArticlesByUser(userAccount);
