@@ -200,7 +200,23 @@ public class CucumberStepDefinition {
 	}
 
 	@And("The following user {string},{string},{string},{string} exist in system")
-	public void SystemHasUser (String arg0, String arg1, String arg2, String arg3{
+	public void SystemHasUser (String arg0, String arg1, String arg2, String arg3){
 
+	}
+
+	@Given("The system exists summaries {string},{string}")
+	public void theSystemExistsSummaries(String arg0, String arg1) {
+	}
+
+	@When("View the article source of a summary")
+	public void viewTheArticleSourceOfASummary() {
+	}
+
+	@Then("the article {string} for each summary {string} is correctly returned")
+	public void theArticleForEachSummaryIsCorrectlyReturned(String arg0, String arg1) {
+	}
+
+	@Then("the article {string} for each summary {string} is correctly returned but some articles do not have summary")
+	public void theArticleForEachSummaryIsCorrectlyReturnedButSomeArticlesDoNotHaveSummary(String arg0, String arg1) {
 	}
 }
