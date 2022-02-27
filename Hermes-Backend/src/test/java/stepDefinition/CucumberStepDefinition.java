@@ -184,7 +184,7 @@ public class CucumberStepDefinition {
 
 	}
 
-	@And("The following user {string},{string},{string},{string},{string} exist in system")
+	@And("the system exist the account {string}, {string}, {string}, {string},{string}")
 	public void SystemHasUser (String arg0, String arg1, String arg2, String arg3, String arg4){
 
 	}
