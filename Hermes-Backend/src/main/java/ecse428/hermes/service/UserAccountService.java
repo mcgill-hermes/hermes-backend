@@ -249,27 +249,12 @@ public class UserAccountService {
 	 */
 	@Transactional
 	public List<Article> getArticlesByUser(UserAccount userAccount){
-		List<Article> myhistory = articleRepository.findAllByUserAccounts(userAccount);
 		List<Category> userPreference = categoryRepository.findAllByUserAccounts(userAccount);
-		List<Article> articlesOfPreference = new ArrayList<>();
-		for(int i =0; i<userPreference.size();i++){
-			Category type = userPreference.get(i);
-			List<Article> articlesOfType = articleRepository.findAllByType(type);
-
-			// filter out articles that is already included when go through previous types
-			List<Article> newArticles = articlesOfType.stream().filter(a-> !articlesOfPreference.contains(a)).collect(Collectors.toList());
-			articlesOfPreference.addAll(newArticles);
+		List<Article> articles = new ArrayList<>();
+		for (int i =0; i<userPreference.size();i++){
+			articles.addAll(getArticlesOfCategoryForUser(userPreference.get(i),userAccount));
 		}
-
-		//filter out history
-		List<Article> articlesOfUser = articlesOfPreference.stream().filter(a-> !myhistory.contains(a)).collect(Collectors.toList());
-		if(articlesOfUser.size()>50){
-			int length = articlesOfUser.size();
-			for(int i = 0; i <length-50;i++){
-				articlesOfUser.remove(0);
-			}
-		}
-		return articlesOfUser;
+		return articles;
 	}
 
 	/**
