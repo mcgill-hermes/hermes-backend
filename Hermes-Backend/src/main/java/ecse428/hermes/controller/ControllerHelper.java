@@ -115,7 +115,7 @@ public class ControllerHelper {
 		if (category.getArticles() != null) {
 			articles = category.getArticles().stream().map(r -> ControllerHelper.convertToDto(r)).collect(Collectors.toList());
 		}
-		
+	
 		CategoryDto categoryDto = new CategoryDto(category.getType(), userAccounts, articles);
 		return categoryDto;
 	}

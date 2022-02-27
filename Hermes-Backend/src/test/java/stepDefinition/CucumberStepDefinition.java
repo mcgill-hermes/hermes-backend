@@ -21,6 +21,27 @@ public class CucumberStepDefinition {
 	private UserAccountService userAccountService;
 	private UserAccount userAccount;
 	private Category category;
+
+	private UserAccount userRegister; 
+	
+	/**
+	 * feature 1: register an user
+	 * @author Zichen
+	 */
+    @Given("that user want to open a new account")
+    public void user_want_to_open_a_new_account() {
+		// nothing happens here really
+	}
+  	@When("the user register the account with {string}, {string}, {string}, {string}")
+    public void user_regiter_the_acount(String userName, String password, String firstname, String lastname) {
+//		 userRegister = userAccountService.createUserAccount(userName, password, firstname, lastname);
+	}
+  	@Then("Then the new user is created in the database")
+    public void the_system_exist_the_account() {
+		// check user inside the database
+	}
+	
+	
 	
 	/**
 	 * feature: User Login (normal case)
@@ -102,4 +123,6 @@ public class CucumberStepDefinition {
 	@When("the user with username {string} delete the category {string} as user preference")
 	public void theUserWithUsernameDeleteTheCategoryAsUserPreference(String arg0, String arg1) {
 	}
+	
+	
 }
