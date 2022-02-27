@@ -2,6 +2,7 @@ package stepDefinition;
 
 import ecse428.hermes.model.Category;
 import ecse428.hermes.service.CategoryService;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.*;
 
 import ecse428.hermes.model.UserAccount;
@@ -123,5 +124,24 @@ public class CucumberStepDefinition {
 
 	@When("the user with username {string} delete the category {string} as user preference")
 	public void theUserWithUsernameDeleteTheCategoryAsUserPreference(String arg0, String arg1) {
+	}
+
+	@Given("The following category exist in system")
+	public void theFollowingCategoryExistInSystem(DataTable table) {
+		
+	}
+
+	@And("The following articles exist in system")
+	public void theFollowingArticlesExistInSystem(DataTable table) {
+		
+	}
+
+	@When("View all article in a category {string}")
+	public void viewAllArticleInACategory(String arg0) {
+		
+	}
+
+	@Then("the number of articles {string} in category {string} is correctly returned")
+	public void theNumberOfArticlesInCategoryIsCorrectlyReturned(String arg0, String arg1) {
 	}
 }
