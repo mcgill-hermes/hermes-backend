@@ -5,6 +5,7 @@ import ecse428.hermes.model.Category;
 import ecse428.hermes.model.Summary;
 import ecse428.hermes.model.UserAccount;
 import org.apache.catalina.User;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import ecse428.hermes.model.Article;
 
@@ -18,5 +19,6 @@ public interface CategoryRepository extends CrudRepository<Category, String> {
 
     List<Category> findAllByUserAccounts(UserAccount userAccount);
 
-
+    @Query("select type from Category")
+    List<String> findAllTypes();
 }

@@ -8,7 +8,7 @@ Feature: User select a news category as user preference
   Scenario Outline: Add a news category as user preference (normal case)
     Given the preference of the user with username "<username>" has no category "<category>"
     When the user with username "<username>" select the category "<category>" as user preference
-    Then the preference of the user with username "<username>" has category "<category>"
+    Then the preference of the user with username "<username>" now has category "<category>"
     Examples:
       | username  | category
       | user01    | category01
@@ -17,7 +17,7 @@ Feature: User select a news category as user preference
   Scenario Outline: Add an existing news category as user preference (alternative case)
     Given the preference of the user with username "<username>" has category "<category>"
     When the user with username "<username>" select the category "<category>" as user preference
-    Then the preference of the user with username "<username>" has category "<category>"
+    Then the preference of the user with username "<username>" now has category "<category>"
     Examples:
       | username  | category
       | user01    | category01
