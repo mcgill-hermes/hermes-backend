@@ -147,10 +147,6 @@ public class CucumberStepDefinition {
 	@When("the user with username {string} delete the category {string} as user preference")
 	public void theUserWithUsernameDeleteTheCategoryAsUserPreference(String arg0, String arg1) {
 	}
-<<<<<<< HEAD
-	
-	
-=======
 
 	@Given("The following category exist in system")
 	public void theFollowingCategoryExistInSystem(DataTable table) {
@@ -170,5 +166,4 @@ public class CucumberStepDefinition {
 	@Then("the number of articles {string} in category {string} is correctly returned")
 	public void theNumberOfArticlesInCategoryIsCorrectlyReturned(String arg0, String arg1) {
 	}
->>>>>>> 4124bcebeca7e478eda4d569c91134a3677abf1c
 }
