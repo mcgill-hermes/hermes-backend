@@ -57,4 +57,9 @@ public class CategoryController {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
+
+	@GetMapping(value = {"/category/types", "/category"})
+	public List<String> getCategoryTypes() throws Exception {
+		return categoryService.getCategoriesTypes();
+	}
 }
