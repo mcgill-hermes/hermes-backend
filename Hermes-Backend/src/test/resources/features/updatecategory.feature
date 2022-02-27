@@ -8,17 +8,19 @@ Feature: User update a news category as user preference
     And the preference of the user with username "user01" has category "category01"
 
   Scenario Outline: Update a news category as user preference (normal case)
-    Given the preference of the user with username "user01" has no category "category02"
-    When the user with username "user01" update the category "category02" as user preference
-    Then the preference of the user with username "user01" has category "category02"
-    But the preference of the user with username "user01" has no category "category01"
+    Given the preference of the user with username "<username>" has no category "<category2>"
+    When the user with username "<username>" update the category "<category2>" as user preference
+    Then the preference of the user with username "<username>" has category "<category2>"
+    But the preference of the user with username "<username>" has no category "<category1>"
     Examples:
-      |  |
+      | username  | category1   | category2
+      | user01    | category01  | category02
 
   Scenario Outline: Update an existing news category as user preference (alternative case)
-    Given the preference of the user with username "user01" has category "category02"
-    When the user with username "user01" update the category "category02" as user preference
-    Then the preference of the user with username "user01" has category "category02"
-    But the preference of the user with username "user01" has no category "category01"
+    Given the preference of the user with username "<username>" has category "<category2>"
+    When the user with username "<username>" update the category "<category2>" as user preference
+    Then the preference of the user with username "<username>" has category "<category2>"
+    But the preference of the user with username "<username>" has no category "<category1>"
     Examples:
-      |  |
+      | username  | category1   | category2
+      | user01    | category01  | category02
