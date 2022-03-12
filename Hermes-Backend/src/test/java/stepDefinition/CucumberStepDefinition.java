@@ -230,4 +230,24 @@ public class CucumberStepDefinition {
     public void theBackendShouldReturnErrorMessage(String arg0) {
 
     }
+
+    @And("the system exist the news summary with id {string}")
+    public void theSystemExistTheNewsSummaryWithId(String arg0) {
+    }
+
+    @Given("the like count of the news summary with id {string} is {int}")
+    public void theLikeCountOfTheNewsSummaryWithIdIs(String arg0, int arg1) {
+    }
+
+    @When("the user with username {string} likes news summary with id {string}")
+    public void theUserWithUsernameLikesNewsSummaryWithId(String arg0, String arg1) {
+    }
+
+    @Then("the like count of the news summary with id {string} becomes {int}")
+    public void theLikeCountOfTheNewsSummaryWithIdBecomes(String arg0, int arg1) {
+    }
+
+    @Given("the like count of the news summary with id {string} is liked by user with username {string}")
+    public void theLikeCountOfTheNewsSummaryWithIdIsLikedByUserWithUsername(String arg0, String arg1) {
+    }
 }
