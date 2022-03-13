@@ -3,6 +3,7 @@ package ecse428.hermes.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ecse428.hermes.dto.UserAccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,4 +63,12 @@ public class CategoryController {
 	public List<String> getCategoryTypes() throws Exception {
 		return categoryService.getCategoriesTypes();
 	}
+
+	@GetMapping(value = {"/getCategory", "/getCategory/"})
+	public CategoryDto getCategory(@RequestParam String type){
+		Category category = categoryService.getCategory(type);
+		CategoryDto dto = ControllerHelper.convertToDto(category);
+		return dto;
+	}
+
 }

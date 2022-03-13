@@ -2,8 +2,11 @@ package ecse428.hermes.controller;
 
 
 import ecse428.hermes.dto.ArticleDto;
+import ecse428.hermes.dto.CategoryDto;
 import ecse428.hermes.model.Article;
 import ecse428.hermes.model.Category;
+import ecse428.hermes.service.CategoryService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +24,10 @@ public class UserController {
 
 	@Autowired
 	private UserAccountService userAccountService;
+
+	@Autowired
+	private CategoryService categoryService;
+
 
 	/**
 	 * Sign up a user account.
@@ -227,4 +234,13 @@ public class UserController {
 //		return status;
 //	}
 
+
+	@PutMapping(value = {"/add/Category/forUser", "/news/Category/forUser/"})
+	// username: joker
+	// type: sports
+	public UserAccountDto addCategoryToUser(@RequestParam String type, @RequestParam String username){
+		UserAccount user = userAccountService.addCategory(type, username);
+		UserAccountDto dto = ControllerHelper.convertToDto(user);
+		return dto;
+	}
 }

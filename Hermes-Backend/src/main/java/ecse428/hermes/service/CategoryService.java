@@ -56,4 +56,22 @@ public class CategoryService {
 	public List<String> getCategoriesTypes(){
 		return (List<String>) categoryRepository.findAllTypes();
 	}
+
+	/**
+	 * Find a category in db.
+	 * @param type
+	 * @return a category
+	 * @author kuachen
+	 */
+	public Category getCategory(String type){
+		if (type == null) {
+			throw new IllegalArgumentException("Error: No input type");
+		}
+		if (categoryRepository.findCategoryByType(type) == null) {
+			throw new IllegalArgumentException("Error: No category exists");
+		} else {
+			Category category = categoryRepository.findCategoryByType(type);
+			return category;
+		}
+	}
 }
