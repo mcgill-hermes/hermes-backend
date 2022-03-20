@@ -235,7 +235,7 @@ public class UserController {
 //	}
 
 
-	@PutMapping(value = {"/add/Category/forUser", "/news/Category/forUser/"})
+	@PostMapping(value = {"/add/Category/forUser", "/news/Category/forUser/"})
 	// username: joker
 	// type: sports
 	public UserAccountDto addCategoryToUser(@RequestParam String type, @RequestParam String username){
@@ -244,10 +244,23 @@ public class UserController {
 		return dto;
 	}
 
-	@PutMapping(value = {"/delete/Category/forUser", "/delete/Category/forUser/"})
+	@PostMapping(value = {"/delete/Category/forUser", "/delete/Category/forUser/"})
 	public UserAccountDto deleteCategoryInUser(@RequestParam String type, @RequestParam String username){
 		UserAccount user = userAccountService.deleteCategory(type, username);
 		UserAccountDto dto = ControllerHelper.convertToDto(user);
 		return dto;
+	}
+
+	@PostMapping(value = {"/myaccount/delete", "/myaccount/delete/"})
+	public boolean deleteUser(@RequestParam String username, @RequestParam String password) throws Exception{
+		UserAccount user = userAccountService.getAccountByUsername(username);
+		String aPassword = user.getPassword();
+		boolean deleted;
+		if(password.equals(aPassword)){
+			deleted=userAccountService.deleteUser(username,true);
+		}else{
+			deleted=userAccountService.deleteUser(username,false);
+		}
+		return deleted;
 	}
 }

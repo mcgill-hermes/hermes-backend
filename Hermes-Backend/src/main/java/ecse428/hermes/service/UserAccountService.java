@@ -400,4 +400,14 @@ public class UserAccountService {
 	}
 
 
+    public boolean deleteUser(String username, boolean passCheck) {
+		if(!passCheck){
+			throw new IllegalArgumentException( "Error: wrong password");
+		}
+		if(userAccountRepository.findUserAccountByUserName((username))==null){
+			throw new IllegalArgumentException( "Error: no category exists");
+		}
+		Boolean deleted = userAccountRepository.deleteUserAccountByUserName(username);
+		return deleted;
+    }
 }
