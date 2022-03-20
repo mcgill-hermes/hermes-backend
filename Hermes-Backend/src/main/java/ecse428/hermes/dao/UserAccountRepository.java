@@ -15,4 +15,6 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, Strin
 
     List<UserAccount> findAllByPreference(Category category);
 
+    Boolean deleteUserAccountByUserName(String name);
+
 }
