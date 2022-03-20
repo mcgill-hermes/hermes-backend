@@ -243,4 +243,11 @@ public class UserController {
 		UserAccountDto dto = ControllerHelper.convertToDto(user);
 		return dto;
 	}
+
+	@PutMapping(value = {"/delete/Category/forUser", "/delete/Category/forUser/"})
+	public UserAccountDto deleteCategoryInUser(@RequestParam String type, @RequestParam String username){
+		UserAccount user = userAccountService.deleteCategory(type, username);
+		UserAccountDto dto = ControllerHelper.convertToDto(user);
+		return dto;
+	}
 }

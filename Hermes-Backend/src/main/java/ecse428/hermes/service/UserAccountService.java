@@ -359,4 +359,45 @@ public class UserAccountService {
 //		return true;
 //
 //	}
+
+	/**
+	 * delete a category in user account
+	 * @param type
+	 * @param name
+	 * @return
+	 */
+	public UserAccount deleteCategory(String type, String name){
+		if (categoryRepository.findCategoryByType(type) == null)
+			throw new IllegalArgumentException("Error: No category exists");
+
+		if (userAccountRepository.findUserAccountByUserName(name) == null)
+			throw new IllegalArgumentException("Error: No user exists");
+
+		UserAccount user = userAccountRepository.findUserAccountByUserName(name);
+		Category category = categoryRepository.findCategoryByType(type);
+
+		List<UserAccount> userAccounts = new ArrayList<UserAccount>(category.getUserAccounts());
+		List<Category> categories = new ArrayList<Category>(user.getPreference());
+
+		if (userAccounts.contains(user)) {
+			userAccounts.remove(user);
+			category.setUserAccounts(userAccounts);
+		} else {
+			throw new IllegalArgumentException("Error: The user is not in the category");
+		}
+
+		if (categories.contains(category)) {
+			categories.remove(category);
+			user.setPreference(categories);
+		} else {
+			throw new IllegalArgumentException("Error: The category is not in the user");
+		}
+
+		categoryRepository.save(category);
+		userAccountRepository.save(user);
+		return user;
+
+	}
+
+
 }
