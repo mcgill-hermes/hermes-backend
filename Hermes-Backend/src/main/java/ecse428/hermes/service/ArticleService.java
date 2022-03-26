@@ -69,4 +69,14 @@ public class ArticleService {
         return (Article) articleRepository.findArticleByNewsID(newID);
     }
 
+    /**
+     * find list of articles by type.
+     * @param type -- Category
+     * @return
+     */
+    public List<Article> getArticlesByType(Category type){
+    	List<Article> articles = articleRepository.findAllByType(type);
+    	
+    	return articles;
+    }
 }
