@@ -71,8 +71,24 @@ public class ArticleService {
     }
 
     /**
+<<<<<<< HEAD
      *  Get all summaries in the database
      * @return a list of summary
+     *
+     * find list of articles by type.
+     * @param type -- Category
+     * @return
+     * @author Zichen Chang
+     */
+    public List<Article> getArticlesByType(Category type){
+    	List<Article> articles = articleRepository.findAllByType(type);
+    	
+    	return articles;
+	}
+
+    /**
+     * Get all summary 
+     * @return list of summary
      */
     public List<Summary> getAllSummary(){return (List<Summary>) summaryRepository.findAll();}
 
