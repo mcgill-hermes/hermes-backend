@@ -71,7 +71,6 @@ public class ArticleService {
     }
 
     /**
-<<<<<<< HEAD
      *  Get all summaries in the database
      * @return a list of summary
      *
@@ -87,7 +86,7 @@ public class ArticleService {
 	}
 
     /**
-     * Get all summary 
+     * Get all summary
      * @return list of summary
      */
     public List<Summary> getAllSummary(){return (List<Summary>) summaryRepository.findAll();}
