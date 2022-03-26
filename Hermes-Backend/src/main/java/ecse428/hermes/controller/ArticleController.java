@@ -2,9 +2,11 @@ package ecse428.hermes.controller;
 
 import ecse428.hermes.dto.ArticleDto;
 import ecse428.hermes.dto.CategoryDto;
+import ecse428.hermes.dto.SummaryDto;
 import ecse428.hermes.dto.WebsiteDto;
 import ecse428.hermes.model.Article;
 import ecse428.hermes.model.Category;
+import ecse428.hermes.model.Summary;
 import ecse428.hermes.model.Website;
 import ecse428.hermes.service.ArticleService;
 import ecse428.hermes.service.CategoryService;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
+
     /**
      * Create a new website
      *
@@ -83,6 +86,48 @@ public class ArticleController {
     public ArticleDto getarticles(@RequestParam int newsID) throws Exception {
         try {
             Article article = articleService.getArticlebyId(newsID);
+            return ControllerHelper.convertToDto(article);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @GetMapping(value = {"/summary", "/summary/"})
+    public List<SummaryDto> getSummaries()throws Exception {
+        try {
+            List<Summary> summaries = articleService.getAllSummary();
+            return summaries.stream().map(a -> ControllerHelper.convertToDto(a)).collect(Collectors.toList());
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    /**
+     * Change the summary under a News/Article. Can change the nlpResult only. An example of SummaryDto JSON is given
+     * Cannot
+     * @param newsID
+     * @param newSummary
+     * @return
+     */
+
+    /*
+        newsID = 1
+
+        and
+
+        JSON body
+        {
+            "summaryId": 1,
+ 	        "nlprResult": "update summary"
+        }
+
+     */
+
+    @PutMapping(value = {"/updateSummaryForNews", "/updateSummaryForNews/"})
+    public ArticleDto updateSummaryForArticle(@RequestParam int newsID, @RequestBody SummaryDto newSummary){
+        try {
+
+            Article article = articleService.updateSummary(newsID,newSummary);
             return ControllerHelper.convertToDto(article);
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(e.getMessage());

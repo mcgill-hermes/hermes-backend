@@ -1,6 +1,7 @@
 package ecse428.hermes.service;
 
 import ecse428.hermes.dao.*;
+import ecse428.hermes.dto.SummaryDto;
 import ecse428.hermes.model.Article;
 import ecse428.hermes.model.Category;
 import ecse428.hermes.model.Summary;
@@ -69,4 +70,26 @@ public class ArticleService {
         return (Article) articleRepository.findArticleByNewsID(newID);
     }
 
+    public List<Summary> getAllSummary(){return (List<Summary>) summaryRepository.findAll();}
+
+    public Summary getSummaryById(Article article){return (Summary) summaryRepository.findSummaryByArticle(article);}
+
+    public Article updateSummary(int newsID, SummaryDto newSummary){
+        if(articleRepository.findArticleByNewsID(newsID)==null){
+            throw new IllegalArgumentException("Error: cannot find such article with id =" + newsID);}
+
+        Article article = articleRepository.findArticleByNewsID(newsID);
+
+        if(summaryRepository.findSummaryByArticle(article)==null)
+            throw new IllegalArgumentException("Error: this article has not associated summary. " +
+                    "You need to create a summary.");
+
+        Summary summary = summaryRepository.findSummaryByArticle(article);
+        summary.setNlprResult(newSummary.getNlprResult());
+
+        summaryRepository.save(summary);
+        articleRepository.save(article);
+
+        return article;
+    }
 }
