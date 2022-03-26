@@ -102,12 +102,12 @@ public class ArticleController {
         }
     }
 
-    /**
+    /** chenkua
      * Change the summary under a News/Article. Can change the nlpResult only. An example of SummaryDto JSON is given
      * Cannot
      * @param newsID
      * @param newSummary
-     * @return
+     * @return the updated ArticleDto
      */
 
     /*
@@ -126,7 +126,6 @@ public class ArticleController {
     @PutMapping(value = {"/updateSummaryForNews", "/updateSummaryForNews/"})
     public ArticleDto updateSummaryForArticle(@RequestParam int newsID, @RequestBody SummaryDto newSummary){
         try {
-
             Article article = articleService.updateSummary(newsID,newSummary);
             return ControllerHelper.convertToDto(article);
         } catch (IllegalArgumentException e) {

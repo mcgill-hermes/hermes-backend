@@ -70,10 +70,25 @@ public class ArticleService {
         return (Article) articleRepository.findArticleByNewsID(newID);
     }
 
+    /**
+     *  Get all summaries in the database
+     * @return a list of summary
+     */
     public List<Summary> getAllSummary(){return (List<Summary>) summaryRepository.findAll();}
 
-    public Summary getSummaryById(Article article){return (Summary) summaryRepository.findSummaryByArticle(article);}
+    /**
+     * Get the summary under an article/news
+     * @param article
+     * @return summary
+     */
+    public Summary getSummaryByArticle(Article article){return (Summary) summaryRepository.findSummaryByArticle(article);}
 
+    /**
+     * Update the summary under an article/news
+     * @param newsID
+     * @param newSummary
+     * @return udpated Article
+     */
     public Article updateSummary(int newsID, SummaryDto newSummary){
         if(articleRepository.findArticleByNewsID(newsID)==null){
             throw new IllegalArgumentException("Error: cannot find such article with id =" + newsID);}
