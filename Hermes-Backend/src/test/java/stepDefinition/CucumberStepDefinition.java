@@ -250,4 +250,36 @@ public class CucumberStepDefinition {
     @Given("the like count of the news summary with id {string} is liked by user with username {string}")
     public void theLikeCountOfTheNewsSummaryWithIdIsLikedByUserWithUsername(String arg0, String arg1) {
     }
+
+	@Given("the system exist the user account {string}")
+	public void theSystemExistTheUserAccount(String arg0) {
+	}
+
+	@And("the system exist the categories {string}, {string}, {string}, {string}")
+	public void theSystemExistTheCategories(String arg0, String arg1, String arg2, String arg3) {
+	}
+
+	@Given("the preference of the user account {string} has no category at beginning")
+	public void thePreferenceOfTheUserAccountHasNoCategoryAtBeginning(String arg0) {
+	}
+
+	@When("the admin adds {string} to the user {string} as user preference")
+	public void theAdminAddsToTheUserAsUserPreference(String arg0, String arg1) {
+	}
+
+	@Then("the preference of the user {string} now has category {string}")
+	public void thePreferenceOfTheUserNowHasCategory(String arg0, String arg1) {
+	}
+
+	@Given("the user account {string} already has the {string}")
+	public void theUserAccountAlreadyHasThe(String arg0, String arg1) {
+	}
+
+	@When("the admin adds {string} to the user {string} as preference")
+	public void theAdminAddsToTheUserAsPreference(String arg0, String arg1) {
+	}
+
+	@Then("display an error message {string} to the Admin")
+	public void displayAnErrorMessageToTheAdmin(String arg0) {
+	}
 }
