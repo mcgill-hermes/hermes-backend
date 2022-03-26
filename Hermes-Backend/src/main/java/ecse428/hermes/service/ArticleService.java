@@ -85,20 +85,20 @@ public class ArticleService {
     	return articles;
 	}
 
-    /**
+    /** chenkua
      * Get all summary
      * @return list of summary
      */
     public List<Summary> getAllSummary(){return (List<Summary>) summaryRepository.findAll();}
 
-    /**
+    /** chenkua
      * Get the summary under an article/news
      * @param article
      * @return summary
      */
     public Summary getSummaryByArticle(Article article){return (Summary) summaryRepository.findSummaryByArticle(article);}
 
-    /**
+    /** chenkua
      * Update the summary under an article/news
      * @param newsID
      * @param newSummary
