@@ -405,9 +405,30 @@ public class UserAccountService {
 			throw new IllegalArgumentException( "Error: wrong password");
 		}
 		if(userAccountRepository.findUserAccountByUserName((username))==null){
-			throw new IllegalArgumentException( "Error: no category exists");
+			throw new IllegalArgumentException( "Error: no such user exists");
 		}
-		Boolean deleted = userAccountRepository.deleteUserAccountByUserName(username);
+		
+		// first need to clear all association by others: categories and histories
+		UserAccount userAccount = userAccountRepository.findUserAccountByUserName(username);
+		
+		List<Category> preferences = categoryRepository.findAllByUserAccounts(userAccount);
+		for (Category c : preferences) {
+			c.setUserAccounts(null);
+			categoryRepository.save(c);
+		}
+		List<Article> histories = articleRepository.findAllByUserAccounts(userAccount);
+		for (Article a : histories) {
+			a.getUserAccounts().remove(userAccount);
+			articleRepository.save(a);
+		}
+		
+		// then we can safely delete it
+		userAccountRepository.deleteById(username);
+		
+//		Boolean deleted = userAccountRepository.deleteUserAccountByUserName(username);
+		
+		Boolean deleted = true;
+		
 		return deleted;
     }
 }
