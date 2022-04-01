@@ -282,4 +282,47 @@ public class CucumberStepDefinition {
 	@Then("display an error message {string} to the Admin")
 	public void displayAnErrorMessageToTheAdmin(String arg0) {
 	}
+	
+	@Given("the system exist the account with username {string}")
+	public void the_system_exist_the_account_with_username(String string) {
+	}
+	
+	@When("the admin delete the user with username {string}")
+	public void the_admin_delete_the_user_with_username(String string) {
+	}
+	
+	@Then("the user {string} cannot login anymore")
+	public void the_user_cannot_login_anymore(String string) {
+	}
+	
+	@Then("the system should change nothing")
+	public void the_system_should_change_nothing() {
+	}
+	
+	@Given("the system exist the article {string} and {string}")
+	public void the_system_exist_the_article_and(String string, String string2) {
+	}
+	
+	@Given("the article {string} has summary {string} and {string} has no summary")
+	public void the_article_has_summary_and_has_no_summary(String string, String string2, String string3) {
+	}
+	
+	@Given("the summary {string} has nlpResult {string}")
+	public void the_summary_has_nlp_result(String string, String string2) {
+	}
+	
+	@When("the admin update {string} with the new nlpResult {string}")
+	public void the_admin_update_with_the_new_nlp_result(String string, String string2) {
+	}
+	
+	@When("the admin updates the summary of {string}")
+	public void the_admin_updates_the_summary_of(String string) {
+	}
+
+	
+	@Then("the {string} has the updated nlpResult {string}")
+	public void the_has_the_updated_nlp_result(String string, String string2) {
+	}
+	
+
 }
