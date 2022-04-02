@@ -335,6 +335,9 @@ public class CucumberStepDefinition {
 	@Then("the user is at the summary with id {string}")
 	public void the_user_is_at_the_summary_with_id(String string) {
 	}
-	
 
+
+    @When("Admin deletes the the category {string}  from user with username {string}")
+    public void adminDeletesTheTheCategoryFromUserWithUsername(String arg0, String arg1) {
+    }
 }
