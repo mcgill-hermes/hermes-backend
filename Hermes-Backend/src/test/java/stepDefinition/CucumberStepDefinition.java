@@ -282,4 +282,28 @@ public class CucumberStepDefinition {
 	@Then("display an error message {string} to the Admin")
 	public void displayAnErrorMessageToTheAdmin(String arg0) {
 	}
+
+	@Given("The system exists keyword {string}")
+	public void theSystemExistsKeyword(String arg0) {
+		
+	}
+
+	@And("The following summary {string} exist in system")
+	public void theFollowingSummaryExistInSystem(String arg0) {
+		
+	}
+
+	@When("User searches news summary by keyword {string}")
+	public void userSearchesNewsSummaryByKeyword(String arg0) {
+		
+	}
+
+	@Then("the number of article summaries {string} for keyword {string} is correctly returned")
+	public void theNumberOfArticleSummariesForKeywordIsCorrectlyReturned(String arg0, String arg1) {
+		
+	}
+
+	@Then("the number of article summaries {string} for keyword {string} is not correctly returned")
+	public void theNumberOfArticleSummariesForKeywordIsNotCorrectlyReturned(String arg0, String arg1) {
+	}
 }
