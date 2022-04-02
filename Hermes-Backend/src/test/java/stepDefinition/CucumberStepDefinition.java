@@ -324,5 +324,17 @@ public class CucumberStepDefinition {
 	public void the_has_the_updated_nlp_result(String string, String string2) {
 	}
 	
+	@Given("the user is at the current summary with id {string}")
+	public void the_user_is_at_the_current_summary_with_id(String string) {
+	}
+
+	@When("the user switch from summary with id {string} to summary with id  {string}")
+	public void the_user_switch_from_summary_with_id_to_summary_with_id(String string, String string2) {
+	}
+	
+	@Then("the user is at the summary with id {string}")
+	public void the_user_is_at_the_summary_with_id(String string) {
+	}
+	
 
 }
