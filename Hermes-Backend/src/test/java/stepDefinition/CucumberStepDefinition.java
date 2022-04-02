@@ -283,24 +283,82 @@ public class CucumberStepDefinition {
 	public void displayAnErrorMessageToTheAdmin(String arg0) {
 	}
 
+	@Given("the system exist the account with username {string}")
+	public void the_system_exist_the_account_with_username(String string) {
+	}
+
+	@When("the admin delete the user with username {string}")
+	public void the_admin_delete_the_user_with_username(String string) {
+	}
+
+	@Then("the user {string} cannot login anymore")
+	public void the_user_cannot_login_anymore(String string) {
+	}
+
+	@Then("the system should change nothing")
+	public void the_system_should_change_nothing() {
+	}
+
+	@Given("the system exist the article {string} and {string}")
+	public void the_system_exist_the_article_and(String string, String string2) {
+	}
+
+	@Given("the article {string} has summary {string} and {string} has no summary")
+	public void the_article_has_summary_and_has_no_summary(String string, String string2, String string3) {
+	}
+
+	@Given("the summary {string} has nlpResult {string}")
+	public void the_summary_has_nlp_result(String string, String string2) {
+	}
+
+	@When("the admin update {string} with the new nlpResult {string}")
+	public void the_admin_update_with_the_new_nlp_result(String string, String string2) {
+	}
+
+	@When("the admin updates the summary of {string}")
+	public void the_admin_updates_the_summary_of(String string) {
+	}
+
+
+	@Then("the {string} has the updated nlpResult {string}")
+	public void the_has_the_updated_nlp_result(String string, String string2) {
+	}
+
+	@Given("the user is at the current summary with id {string}")
+	public void the_user_is_at_the_current_summary_with_id(String string) {
+	}
+
+	@When("the user switch from summary with id {string} to summary with id  {string}")
+	public void the_user_switch_from_summary_with_id_to_summary_with_id(String string, String string2) {
+	}
+
+	@Then("the user is at the summary with id {string}")
+	public void the_user_is_at_the_summary_with_id(String string) {
+	}
+
+
+    @When("Admin deletes the the category {string}  from user with username {string}")
+    public void adminDeletesTheTheCategoryFromUserWithUsername(String arg0, String arg1) {
+    }
+
 	@Given("The system exists keyword {string}")
 	public void theSystemExistsKeyword(String arg0) {
-		
+
 	}
 
 	@And("The following summary {string} exist in system")
 	public void theFollowingSummaryExistInSystem(String arg0) {
-		
+
 	}
 
 	@When("User searches news summary by keyword {string}")
 	public void userSearchesNewsSummaryByKeyword(String arg0) {
-		
+
 	}
 
 	@Then("the number of article summaries {string} for keyword {string} is correctly returned")
 	public void theNumberOfArticleSummariesForKeywordIsCorrectlyReturned(String arg0, String arg1) {
-		
+
 	}
 
 	@Then("the number of article summaries {string} for keyword {string} is not correctly returned")
