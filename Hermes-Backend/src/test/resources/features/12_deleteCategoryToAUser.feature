@@ -2,7 +2,6 @@ Feature: Admin deletes category to a user
 
   Background:
     Given the system exist the account "user01", "code01", "first01", "last01"
-    And the user is logged in with username "user01" and password "code01"
     And the system exist the category "category01"
     And the system exist the category "category02"
     And the preference of the user with username "user01" has category "category01"
